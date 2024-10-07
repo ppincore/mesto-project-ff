@@ -23,6 +23,6 @@ function deleteCard(e) {
 }
 
 initialCards.forEach((item) => {
-  let card = createCard(cardTemplate, item);
+  const card = createCard(cardTemplate, item);
   cardList.append(card);
 });
