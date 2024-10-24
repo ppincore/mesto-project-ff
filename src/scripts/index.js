@@ -4,7 +4,10 @@ import {initialCards} from './cards.js'
 const cardTemplate = document.querySelector("#card-template").content;
 const cardList = document.querySelector(".places__list");
 const profileSection = document.querySelector('.profile')
-
+const profileSectionButtons = profileSection.querySelectorAll('button')
+const popupList = document.querySelectorAll('.popup')
+console.log(popupList)
+const closeBtn = document.querySelectorAll('.popup__close')
 
 function createCard(template, arrayItem) {
   const card = template.querySelector(".places__item").cloneNode(true);
@@ -32,13 +35,15 @@ initialCards.forEach((item) => {
   cardList.append(card);
 });
 
-profileSection.addEventListener('click',(e)=>{
-  
-  // if(e.target.classList.contains('profile__edit-button')){
-  //   const popUpEdit = document.querySelector('.popup_type_edit')
-  //   popUpEdit.classList.add('popup_is-opened')
-  // } else if ( e.target.classList.contains('profile__add-button')){
-  //   const popUpEdit = document.querySelector('.popup_type_new-card')
-  //   popUpEdit.classList.add('popup_is-opened')
-  // }
-})
+closeBtn.forEach((i)=>{
+  i.addEventListener('click',(e)=>{
+    e.target.closest('.popup').classList.remove('popup_is-opened')
+  })
+ })
+
+//  function openPopup(target){
+//   let popup = document.querySelector(`.${target}`)
+//   popup.classList.add('popup_is-opened')
+// }
+
+// openPopup('popup_type_edit')
