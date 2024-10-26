@@ -9,6 +9,18 @@ const profileSection = document.querySelector('.profile');
 const popupList = document.querySelectorAll('.popup');
 const popupArray = Array.from(popupList);
 
+
+const formElement  = document.forms['edit-profile']
+const nameInput = formElement.querySelector('.popup__input_type_name')
+const jobInput = formElement.querySelector('.popup__input_type_description')
+
+const profileTitle = profileSection.querySelector('.profile__title')
+const profileDescription = profileSection.querySelector('.profile__description')
+
+const formAddCard = document.forms['new-place']
+const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name')
+const cardImageLink = formAddCard.querySelector('.popup__input_type_url')
+console.log(cardImageLink.value)
 // добавление карточек на страницу
 initialCards.forEach((item) => {
   const card = createCard(cardTemplate, item);
@@ -19,7 +31,10 @@ initialCards.forEach((item) => {
 
 // прослушиватель на секциюю
 profileSection.addEventListener('click', openPopup);
-
+// просшуливатель на форму профиля
+formElement.addEventListener('submit', handleFormSubmit); 
+// прослушиватель на форму добавления карточки
+formAddCard.addEventListener('submit',addCard)
 // ФУНКЦИИ
 
 // создание карточки
@@ -54,7 +69,7 @@ function openPopup(e) {
   const obj = {
     'profile__edit-button': 'popup_type_edit',
     'profile__add-button': 'popup_type_new-card',
-    card__image: 'popup_type_image',
+    'card__image': 'popup_type_image',
   };
   for (let key in obj) {
     if (target.classList.contains(key)) {
@@ -62,6 +77,9 @@ function openPopup(e) {
       if (popup) {
         if (popup.classList.contains('popup_type_image')) {
           popup.querySelector('.popup__image').src = e.target.src;
+        } else if(popup.classList.contains('popup_type_edit')){
+          nameInput.value = profileTitle.textContent  
+          jobInput.value  =  profileDescription.textContent
         }
         popup.classList.add('popup_is-opened');
         document.addEventListener('keydown', closeEsc)
@@ -76,7 +94,8 @@ function openPopup(e) {
 function closePopup(e) {
   if (
     e.target.classList.contains('popup') ||
-    e.target.classList.contains('popup__close')
+    e.target.classList.contains('popup__close') ||
+    e.target.classList.contains('popup__button')
   ) {
     e.target.closest('.popup').classList.remove('popup_is-opened');
   }
@@ -95,7 +114,22 @@ function closeEsc(e) {
   }
 }
 
+//функция для формы изменения секции профиля
+function handleFormSubmit(e){
+  e.preventDefault();
+  profileTitle.textContent = nameInput.value
+  profileDescription.textContent = jobInput.value
+  formElement.reset()
+}
 
+// форма для добавления новой карточки
 
-
-
+// function addCard(e){
+//   e.preventDefault();
+//   const obj = {}
+//   obj.name = cardNamePlace.value
+//   obj.link = cardImageLink.value
+//   console.log(obj)
+//   initialCards.unshift(obj)
+//   console.log(initialCards)
+// }
