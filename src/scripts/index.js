@@ -20,7 +20,7 @@ const profileDescription = profileSection.querySelector('.profile__description')
 const formAddCard = document.forms['new-place']
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name')
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url')
-console.log(cardImageLink.value)
+
 // добавление карточек на страницу
 initialCards.forEach((item) => {
   const card = createCard(cardTemplate, item);
@@ -44,13 +44,15 @@ function createCard(template, arrayItem) {
 
   const cardImage = card.querySelector('.card__image');
   const deleteButton = card.querySelector('.card__delete-button');
+  const likeButton = card.querySelector('.card__like-button')
 
   cardTitle.textContent = arrayItem.name;
   cardImage.setAttribute('src', arrayItem.link);
   cardImage.setAttribute('alt', arrayItem.name);
-
+  
   deleteButton.addEventListener('click', deleteCard);
   cardImage.addEventListener('click', openPopup);
+  likeButton.addEventListener('click',cardLike)
 
   return card;
 }
@@ -122,14 +124,21 @@ function handleFormSubmit(e){
   formElement.reset()
 }
 
-// форма для добавления новой карточки
+//функция для формы для добавления новой карточки
+function addCard(e){
+  e.preventDefault();
+  const obj = {
+    name: cardNamePlace.value,
+    link: cardImageLink.value
+  }
+  const newCard = createCard(cardTemplate, obj);
+  cardList.prepend(newCard);
+  formAddCard.reset()
+}
 
-// function addCard(e){
-//   e.preventDefault();
-//   const obj = {}
-//   obj.name = cardNamePlace.value
-//   obj.link = cardImageLink.value
-//   console.log(obj)
-//   initialCards.unshift(obj)
-//   console.log(initialCards)
-// }
+// функция лайка для карточки
+function cardLike(e){
+  if(e.target.classList.contains('card__like-button')){
+    e.target.classList.add('card__like-button_is-active')
+  }
+}
