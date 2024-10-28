@@ -1,6 +1,8 @@
 // функция откртытия попапа
 import {nameInput,popupArray,jobInput,profileTitle,profileDescription,cardNamePlace,cardImageLink} from '../scripts/index.js'
 
+
+
 function openModal(e) {
   let target = e.target;
   let popup = null;
@@ -12,6 +14,7 @@ function openModal(e) {
   for (let key in obj) {
     if (target.classList.contains(key)) {
       popup = popupArray.find((i) => i.classList.contains(obj[key]));
+      console.log(popup)
       if (popup) {
         if (popup.classList.contains('popup_type_image')) {
           popup.querySelector('.popup__image').src = e.target.src;
@@ -20,8 +23,9 @@ function openModal(e) {
           jobInput.value  =  profileDescription.textContent
         }
         popup.classList.add('popup_is-opened');
+        
         document.addEventListener('keydown', closeModalEsc)
-        popup.addEventListener('click',closeModal)
+        popup.addEventListener('mousedown',closeModal)
       }
       break;
     }
