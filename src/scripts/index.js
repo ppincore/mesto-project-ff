@@ -11,6 +11,7 @@ const profileSection = document.querySelector('.profile');
 const popupList = document.querySelectorAll('.popup');
 const popupArray = Array.from(popupList);
 
+popupArray.forEach((i)=>i.classList.add('popup_is-animated'))
 
 const formElement  = document.forms['edit-profile']
 const nameInput = formElement.querySelector('.popup__input_type_name')
@@ -38,6 +39,7 @@ formElement.addEventListener('submit', handleFormSubmit);
 // прослушиватель на форму добавления карточки
 formAddCard.addEventListener('submit',addCard)
 // ФУНКЦИИ
+
 
 
 export {nameInput,
