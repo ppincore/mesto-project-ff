@@ -1,12 +1,3 @@
-import {
-  nameInput,
-  popupArray,
-  jobInput,
-  profileTitle,
-  profileDescription,
-  cardNamePlace,
-  cardImageLink,
-} from '../scripts/index.js';
 
 function openModal(e) {
   let target = e.target;
@@ -58,22 +49,6 @@ function closeModalEsc(e) {
   }
 }
 
-function addCard(e) {
-  e.preventDefault();
-  const obj = {
-    name: cardNamePlace.value,
-    link: cardImageLink.value,
-  };
-  const newCard = createCard(cardTemplate, obj);
-  cardList.prepend(newCard);
-  formAddCard.reset();
-}
 
-function handleFormSubmit(e) {
-  e.preventDefault();
-  profileTitle.textContent = nameInput.value;
-  profileDescription.textContent = jobInput.value;
-  formElement.reset();
-}
 
-export { openModal, addCard, handleFormSubmit };
+export { openModal};
