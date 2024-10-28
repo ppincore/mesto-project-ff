@@ -19,7 +19,6 @@ function openModal(e) {
   for (let key in obj) {
     if (target.classList.contains(key)) {
       popup = popupArray.find((i) => i.classList.contains(obj[key]));
-      console.log(popup);
       if (popup) {
         if (popup.classList.contains('popup_type_image')) {
           popup.querySelector('.popup__image').src = e.target.src;
