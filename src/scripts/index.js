@@ -1,6 +1,6 @@
 import '../pages/index.css';
-import { initialCards, createCard, likeCard } from '../components/cards.js';
-import { openModal} from '../components/modal.js';
+import { initialCards, createCard, likeCard,openImagePopup } from '../components/cards.js';
+// import { openModal} from '../components/modal.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.places__list');
@@ -9,12 +9,14 @@ const profileSection = document.querySelector('.profile');
 
 const popupList = document.querySelectorAll('.popup');
 const popupArray = Array.from(popupList);
+const popupTypeImage =document.querySelector('.popup_type_image')
 
-popupArray.forEach((i) => i.classList.add('popup_is-animated'));
+
+
 
 const formEditProfile = document.forms['edit-profile'];
 const nameInput = formEditProfile.querySelector('.popup__input_type_name');
-const jobInput = formElement.querySelector('.popup__input_type_description');
+const jobInput = formEditProfile.querySelector('.popup__input_type_description');
 
 const profileTitle = profileSection.querySelector('.profile__title');
 const profileDescription = profileSection.querySelector(
@@ -30,11 +32,12 @@ initialCards.forEach((item) => {
   cardList.append(card);
 });
 
-profileSection.addEventListener('click', openModal);
+popupArray.forEach((i) => i.classList.add('popup_is-animated'));
+// profileSection.addEventListener('click', openModal);
 
-formEditProfile.addEventListener('submit', editProfileSection);
+// formEditProfile.addEventListener('submit', editProfileSection);
 
-formAddCard.addEventListener('submit', addCard);
+// formAddCard.addEventListener('submit', addCard);
 
 function addCard(e) {
   e.preventDefault();
@@ -51,7 +54,7 @@ function editProfileSection(e) {
   e.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
-  formElement.reset();
+  formEditProfile.reset();
 }
 
-
+export {popupTypeImage}

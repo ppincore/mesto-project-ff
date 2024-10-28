@@ -1,4 +1,4 @@
-import { openModal } from '../components/modal.js';
+import { popupTypeImage } from '../scripts/index.js';
 
 const initialCards = [
   {
@@ -27,7 +27,7 @@ const initialCards = [
   },
 ];
 
-function createCard(cardTemplate, cardData, onLikeCard) {
+function createCard(cardTemplate, cardData,onLikeCard) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
 
@@ -41,13 +41,16 @@ function createCard(cardTemplate, cardData, onLikeCard) {
 
   deleteButton.addEventListener('click', deleteCard);
   cardImage.addEventListener('click', openImagePopup);
-  likeButton.addEventListener('click', onLikeCard);
+  likeButton.addEventListener('click', onlikeCard);
 
   return card;
 }
 
 function openImagePopup(e){
-  
+  const popupImage = popupTypeImage.querySelector('.popup__image')
+  popupImage.src = e.target.src
+  popupImage.alt = e.target.alt
+  popupTypeImage.classList.add('popup_is-opened')
 }
 
 function deleteCard(e) {
@@ -62,4 +65,4 @@ function likeCard(e) {
   likedCard.classList.add('card__like-button_is-active')
 }
 
-export { initialCards, createCard, likeCard};
+export { initialCards, createCard, likeCard,openImagePopup};
