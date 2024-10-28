@@ -1,5 +1,7 @@
 import '../pages/index.css';
-import { initialCards } from './cards.js';
+import {initialCards,createCard} from '../components/cards.js';
+import {openModal,handleFormSubmit, addCard} from '../components/modal.js'
+
 
 const cardTemplate = document.querySelector('#card-template').content;
 const cardList = document.querySelector('.places__list');
@@ -30,115 +32,28 @@ initialCards.forEach((item) => {
 // СЛУШАТЕЛИ СОБЫТИЙ
 
 // прослушиватель на секциюю
-profileSection.addEventListener('click', openPopup);
+profileSection.addEventListener('click', openModal);
 // просшуливатель на форму профиля
 formElement.addEventListener('submit', handleFormSubmit); 
 // прослушиватель на форму добавления карточки
 formAddCard.addEventListener('submit',addCard)
 // ФУНКЦИИ
 
-// создание карточки
-function createCard(template, arrayItem) {
-  const card = template.querySelector('.places__item').cloneNode(true);
-  const cardTitle = card.querySelector('.card__title');
 
-  const cardImage = card.querySelector('.card__image');
-  const deleteButton = card.querySelector('.card__delete-button');
-  const likeButton = card.querySelector('.card__like-button')
-
-  cardTitle.textContent = arrayItem.name;
-  cardImage.setAttribute('src', arrayItem.link);
-  cardImage.setAttribute('alt', arrayItem.name);
-  
-  deleteButton.addEventListener('click', deleteCard);
-  cardImage.addEventListener('click', openPopup);
-  likeButton.addEventListener('click',cardLike)
-
-  return card;
+export {nameInput,
+    popupArray,
+    jobInput,
+    profileTitle,
+    profileDescription,
+    cardNamePlace,
+    cardImageLink,
 }
 
-// удаление карточки
-function deleteCard(e) {
-  let target = e.target;
-  let deletedCard = target.closest('.places__item');
-  deletedCard.remove();
-}
 
-// функция откртытия попапа
-function openPopup(e) {
-  let target = e.target;
-  let popup = null;
-  const obj = {
-    'profile__edit-button': 'popup_type_edit',
-    'profile__add-button': 'popup_type_new-card',
-    'card__image': 'popup_type_image',
-  };
-  for (let key in obj) {
-    if (target.classList.contains(key)) {
-      popup = popupArray.find((i) => i.classList.contains(obj[key]));
-      if (popup) {
-        if (popup.classList.contains('popup_type_image')) {
-          popup.querySelector('.popup__image').src = e.target.src;
-        } else if(popup.classList.contains('popup_type_edit')){
-          nameInput.value = profileTitle.textContent  
-          jobInput.value  =  profileDescription.textContent
-        }
-        popup.classList.add('popup_is-opened');
-        document.addEventListener('keydown', closeEsc)
-        popup.addEventListener('click',closePopup)
-      }
-      break;
-    }
-  }
-  
-}
-// функция закрытия попапа
-function closePopup(e) {
-  if (
-    e.target.classList.contains('popup') ||
-    e.target.classList.contains('popup__close') ||
-    e.target.classList.contains('popup__button')
-  ) {
-    e.target.closest('.popup').classList.remove('popup_is-opened');
-  }
-  document.removeEventListener('keydown',closeEsc)
-}
 
-// функция закрытия попап по esc
-function closeEsc(e) {
-  if (e.key.toLowerCase() === 'escape') {
-    const closePopup = popupArray.find((popup) => {
-      return popup.classList.contains('popup_is-opened');
-    });
-    if (closePopup) {
-      closePopup.classList.remove('popup_is-opened');
-    }
-  }
-}
 
-//функция для формы изменения секции профиля
-function handleFormSubmit(e){
-  e.preventDefault();
-  profileTitle.textContent = nameInput.value
-  profileDescription.textContent = jobInput.value
-  formElement.reset()
-}
 
-//функция для формы для добавления новой карточки
-function addCard(e){
-  e.preventDefault();
-  const obj = {
-    name: cardNamePlace.value,
-    link: cardImageLink.value
-  }
-  const newCard = createCard(cardTemplate, obj);
-  cardList.prepend(newCard);
-  formAddCard.reset()
-}
 
-// функция лайка для карточки
-function cardLike(e){
-  if(e.target.classList.contains('card__like-button')){
-    e.target.classList.add('card__like-button_is-active')
-  }
-}
+
+
+
