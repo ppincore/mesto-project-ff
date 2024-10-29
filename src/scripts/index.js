@@ -50,11 +50,14 @@ initialCards.forEach((item) => {
 
 
 
-function openImagePopup(e) {
+function openImagePopup(cardData) {
   const popupImage = popupTypeImage.querySelector('.popup__image');
-  popupImage.src = e.target.src;
-  popupImage.alt = e.target.alt;
+
+  popupImage.src = cardData.link;
+  popupImage.alt = cardData.name;
+
   popupTypeImage.classList.add('popup_is-opened');
-  popupTypeImage.addEventListener('mousedown',closePopup)
+
+  popupTypeImage.addEventListener('mousedown',()=>closePopup(popupImage))
   document.addEventListener('keydown',closeModalEsc)
 }

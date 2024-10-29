@@ -25,9 +25,13 @@ const initialCards = [
   },
 ];
 
-
-
-function createCard(cardTemplate, cardData,openImage,onCardDelete,onLikeCard) {
+function createCard(
+  cardTemplate,
+  cardData,
+  openImage,
+  onCardDelete,
+  onLikeCard
+) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
 
@@ -35,27 +39,23 @@ function createCard(cardTemplate, cardData,openImage,onCardDelete,onLikeCard) {
   const deleteButton = card.querySelector('.card__delete-button');
   const likeButton = card.querySelector('.card__like-button');
 
-  deleteButton.addEventListener('click', onCardDelete);
-  cardImage.addEventListener('click',openImage)
-  likeButton.addEventListener('click',onLikeCard)
-  
+  deleteButton.addEventListener('click', () => onCardDelete(card));
+  cardImage.addEventListener('click', () => openImage(cardData));
+  likeButton.addEventListener('click', () => onLikeCard(likeButton));
+
   cardTitle.textContent = cardData.name;
   cardImage.setAttribute('src', cardData.link);
   cardImage.setAttribute('alt', cardData.name);
   return card;
 }
 
-function deleteCard(e) {
-  const target = e.target;
-  const deletedCard = target.closest('.places__item');
+function deleteCard(cardElement) {
+  const deletedCard = cardElement.closest('.places__item');
   deletedCard.remove();
 }
 
-function likeCard(e) {
-  if (e.target.classList.contains('card__like-button')) { 
-    e.target.classList.toggle('card__like-button_is-active'); 
-  }
+function likeCard(likeButton) {
+  likeButton.classList.toggle('card__like-button_is-active');
 }
 
-
-export { initialCards, createCard,deleteCard,likeCard};
+export { initialCards, createCard, deleteCard, likeCard };
