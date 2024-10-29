@@ -1,6 +1,9 @@
+function openModal(e){
+
+}
 
 
-function closeModal(e) {
+function closePopup(e) {
   if (
     e.target.classList.contains('popup') ||
     e.target.classList.contains('popup__close') ||
@@ -10,18 +13,10 @@ function closeModal(e) {
   }
   document.removeEventListener('keydown', closeModalEsc);
 }
-
 function closeModalEsc(e) {
   if (e.key.toLowerCase() === 'escape') {
-    const closePopup = popupArray.find((popup) => {
-      return popup.classList.contains('popup_is-opened');
-    });
-    if (closePopup) {
-      closePopup.classList.remove('popup_is-opened');
-    }
+    e.target.querySelector('.popup_is-opened').classList.remove('popup_is-opened')
   }
+  document.removeEventListener('keydown', closeModalEsc);
 }
-
-
-
-// export { openModal};
+export {closePopup,closeModalEsc,openModal}
