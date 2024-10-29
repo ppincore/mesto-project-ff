@@ -1,5 +1,3 @@
-import { popupTypeImage } from '../scripts/index.js';
-
 const initialCards = [
   {
     name: 'Архыз',
@@ -27,7 +25,9 @@ const initialCards = [
   },
 ];
 
-function createCard(cardTemplate, cardData,onLikeCard) {
+
+
+function createCard(cardTemplate, cardData,openImage,onCardDelete,onLikeCard) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
 
@@ -35,22 +35,14 @@ function createCard(cardTemplate, cardData,onLikeCard) {
   const deleteButton = card.querySelector('.card__delete-button');
   const likeButton = card.querySelector('.card__like-button');
 
+  deleteButton.addEventListener('click', onCardDelete);
+  cardImage.addEventListener('click',openImage)
+  likeButton.addEventListener('click',onLikeCard)
+  
   cardTitle.textContent = cardData.name;
   cardImage.setAttribute('src', cardData.link);
   cardImage.setAttribute('alt', cardData.name);
-
-  deleteButton.addEventListener('click', deleteCard);
-  cardImage.addEventListener('click', openImagePopup);
-  likeButton.addEventListener('click', onlikeCard);
-
   return card;
-}
-
-function openImagePopup(e){
-  const popupImage = popupTypeImage.querySelector('.popup__image')
-  popupImage.src = e.target.src
-  popupImage.alt = e.target.alt
-  popupTypeImage.classList.add('popup_is-opened')
 }
 
 function deleteCard(e) {
@@ -60,9 +52,10 @@ function deleteCard(e) {
 }
 
 function likeCard(e) {
-  const target = e.target;
-  const likedCard = target.closest('.places__item');
-  likedCard.classList.add('card__like-button_is-active')
+  if (e.target.classList.contains('card__like-button')) { 
+    e.target.classList.toggle('card__like-button_is-active'); 
+  }
 }
 
-export { initialCards, createCard, likeCard,openImagePopup};
+
+export { initialCards, createCard,deleteCard,likeCard};
