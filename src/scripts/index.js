@@ -28,9 +28,14 @@ const profileDescription = profileSection.querySelector(
   '.profile__description'
 );
 
+nameInput.value = profileTitle.textContent
+jobInput.value = profileDescription.textContent
+
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
+
+popupArray.forEach((i) => i.classList.add('popup_is-animated'));
 
 initialCards.forEach((item) => {
   const card = createCard(
@@ -43,7 +48,7 @@ initialCards.forEach((item) => {
   cardList.append(card);
 });
 
-popupArray.forEach((i) => i.classList.add('popup_is-animated'));
+
 
 function openImagePopup(e) {
   const popupImage = popupTypeImage.querySelector('.popup__image');
