@@ -28,9 +28,10 @@ const initialCards = [
 function createCard(
   cardTemplate,
   cardData,
-  openImage,
+  onOpenModal,
   onCardDelete,
-  onLikeCard
+  onLikeCard,
+  onPopup
 ) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
@@ -40,7 +41,7 @@ function createCard(
   const likeButton = card.querySelector('.card__like-button');
 
   deleteButton.addEventListener('click', () => onCardDelete(card));
-  cardImage.addEventListener('click', () => openImage(cardData));
+  cardImage.addEventListener('click', () => onOpenModal(onPopup));
   likeButton.addEventListener('click', () => onLikeCard(likeButton));
 
   cardTitle.textContent = cardData.name;

@@ -1,22 +1,20 @@
-function openModal(e){
+function openModal(popup){
 
+  popup.classList.add('popup_is-opened')
+  popup.addEventListener('mousedown',()=>closePopup(popup))
+  document.addEventListener('keydown',()=>closePopup(popup))
 }
 
 
 function closePopup(popup) {
-  
-  if(popup){
-    popup.closest('.popup').classList.remove('popup_is-opened')
-    console.log(popup)
-    }
-    document.removeEventListener('keydown', closeModalEsc);
-  }
- 
-
+  popup.classList.remove('popup_is-opened')
+  console.log(popup)
+  popup.removeEventListener('mousedown',close)
+  document.removeEventListener('keydown', closeModalEsc);
+}
 
 function closeModalEsc() {
- const popup = document.querySelector('.popup_is-opened')
- closePopup(popup)
+
 
 }
 
