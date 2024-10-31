@@ -35,18 +35,24 @@ function createCard(
 ) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
-
+  const popupImage = onPopup.querySelector('.popup__image')
   const cardImage = card.querySelector('.card__image');
   const deleteButton = card.querySelector('.card__delete-button');
   const likeButton = card.querySelector('.card__like-button');
 
   deleteButton.addEventListener('click', () => onCardDelete(card));
-  cardImage.addEventListener('click', () => onOpenModal(onPopup));
+
+  cardImage.addEventListener('click', () =>{
+    popupImage.src = cardImage.src
+    popupImage.alt = cardImage.alt
+    onOpenModal(onPopup)
+  });
   likeButton.addEventListener('click', () => onLikeCard(likeButton));
 
   cardTitle.textContent = cardData.name;
   cardImage.setAttribute('src', cardData.link);
   cardImage.setAttribute('alt', cardData.name);
+  
   return card;
 }
 
