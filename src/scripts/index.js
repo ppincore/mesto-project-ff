@@ -19,8 +19,6 @@ const profileDescription = profileSection.querySelector(
   '.profile__description'
 );
 
-const popupArray = Array.from(document.querySelectorAll('.popup'));
-
 // Попапы
 const popupTypeImage = document.querySelector('.popup_type_image');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
@@ -37,7 +35,6 @@ const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 
-popupArray.forEach((i) => i.classList.add('popup_is-animated'));
 
 addButton.addEventListener('click', () => {
   openModal(popupTypeNewCard);
