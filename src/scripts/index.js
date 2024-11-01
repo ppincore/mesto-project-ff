@@ -68,7 +68,6 @@ function editProfileSection(e) {
 
 function addNewCard(e) {
   e.preventDefault();
-  console.log(e.target);
   const cardData = {
     name: cardNamePlace.value,
     link: cardImageLink.value,

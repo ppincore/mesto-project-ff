@@ -4,7 +4,6 @@ function openModal(popup) {
     popup.classList.add('popup_is-opened');
   }, 0);
   popup.addEventListener('click', closePopup);
-
   document.addEventListener('keydown', closePopup);
 }
 
@@ -21,6 +20,7 @@ function closePopup(e) {
     setTimeout(() => {
       popupToClose.classList.remove('popup_is-animated');
     }, 600);
+    popupToClose.querySelector('form').reset();
     popupToClose.removeEventListener('click', closePopup);
     document.removeEventListener('keydown', closePopup);
   }
