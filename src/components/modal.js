@@ -3,28 +3,25 @@ function openModal(popup) {
   setTimeout(() => {
     popup.classList.add('popup_is-opened');
   }, 0);
+  popup.addEventListener('click', closePopup);
 
-  popup.addEventListener('mousedown', closePopup);
   document.addEventListener('keydown', closePopup);
 }
 
 function closePopup(e) {
-  const popup = document.querySelector('.popup_is-opened');
   const target = e.target;
+  const popupToClose = document.querySelector('.popup_is-opened');
   if (
     e.key === 'Escape' ||
+    target.type === 'submit' ||
     target.classList.contains('popup__close') ||
-    target.classList.contains('popup__form') ||
-    target === popup
+    target === popupToClose
   ) {
-    popup.classList.remove('popup_is-opened');
-    setTimeout(() => {
-      popup.classList.remove('popup_is-animated');
-    }, 600);
-    
-    popup.removeEventListener('click', closePopup);
+    popupToClose.classList.remove('popup_is-opened');
+
+    popupToClose.removeEventListener('click', closePopup);
     document.removeEventListener('keydown', closePopup);
   }
 }
 
-export { closePopup, openModal };
+export { openModal };
