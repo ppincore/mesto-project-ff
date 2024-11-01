@@ -63,6 +63,7 @@ function editProfileSection(e) {
   e.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
+  formEditProfile.reset();
 }
 
 function addNewCard(e) {
