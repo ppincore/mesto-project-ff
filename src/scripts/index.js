@@ -5,7 +5,7 @@ import {
   deleteCard,
   likeCard,
 } from '../components/cards.js';
-import { openModal, closePopup } from '../components/modal.js';
+import { openModal } from '../components/modal.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -30,13 +30,12 @@ const nameInput = formEditProfile.querySelector('.popup__input_type_name');
 const jobInput = formEditProfile.querySelector(
   '.popup__input_type_description'
 );
-// Форма 2 
+// Форма 2
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 
-
-addButton.addEventListener('click', () => {
+addButton.addEventListener('click', (e) => {
   openModal(popupTypeNewCard);
   formAddCard.addEventListener('submit', addNewCard);
 });
@@ -64,12 +63,11 @@ function editProfileSection(e) {
   e.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
-  closePopup(e)
 }
 
 function addNewCard(e) {
   e.preventDefault();
-  console.log(e.target)
+  console.log(e.target);
   const cardData = {
     name: cardNamePlace.value,
     link: cardImageLink.value,
@@ -84,5 +82,4 @@ function addNewCard(e) {
   );
   cardList.prepend(card);
   formAddCard.reset();
-  closePopup(e)
 }
