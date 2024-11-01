@@ -18,7 +18,9 @@ function closePopup(e) {
     target === popupToClose
   ) {
     popupToClose.classList.remove('popup_is-opened');
-
+    setTimeout(() => {
+      popupToClose.classList.remove('popup_is-animated');
+    }, 600);
     popupToClose.removeEventListener('click', closePopup);
     document.removeEventListener('keydown', closePopup);
   }
