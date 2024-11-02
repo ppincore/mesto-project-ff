@@ -53,7 +53,7 @@ function addNewCard(e) {
   const card = createCard(
     cardTemplate,
     cardData,
-    openModal,
+    openImagePopup,
     deleteCard,
     likeCard,
     popupTypeImage
