@@ -28,25 +28,19 @@ const initialCards = [
 function createCard(
   cardTemplate,
   cardData,
-  onOpenModal,
+  openImagePopup,
   onCardDelete,
   onLikeCard,
-  onPopup
 ) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
-  const popupImage = onPopup.querySelector('.popup__image');
   const cardImage = card.querySelector('.card__image');
   const deleteButton = card.querySelector('.card__delete-button');
   const likeButton = card.querySelector('.card__like-button');
 
   deleteButton.addEventListener('click', () => onCardDelete(card));
 
-  cardImage.addEventListener('click', () => {
-    popupImage.src = cardImage.src;
-    popupImage.alt = cardImage.alt;
-    onOpenModal(onPopup);
-  });
+  cardImage.addEventListener('click', () => openImagePopup(cardData));
   likeButton.addEventListener('click', () => onLikeCard(likeButton));
 
   cardTitle.textContent = cardData.name;
