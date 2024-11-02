@@ -63,11 +63,11 @@ function addNewCard(e) {
   closeModal(popupTypeNewCard);
 }
 
-function openImagePopup(cardData){
-  const popupImage = popupTypeImage.querySelector('.popup__image')
-  popupImage.src = cardData.link
-  popupImage.alt = cardData.name
-  popupTypeImage.classList.add('popup_is-opened')
+function openImagePopup(cardData) {
+  const popupImage = popupTypeImage.querySelector('.popup__image');
+  popupImage.src = cardData.link;
+  popupImage.alt = cardData.name;
+  popupTypeImage.classList.add('popup_is-opened');
 }
 
 popups.forEach((popup) => {

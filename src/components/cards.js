@@ -30,7 +30,7 @@ function createCard(
   cardData,
   openImagePopup,
   onCardDelete,
-  onLikeCard,
+  onLikeCard
 ) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
