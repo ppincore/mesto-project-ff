@@ -1,10 +1,6 @@
 import '../pages/index.css';
-import {
-  initialCards,
-  createCard,
-  deleteCard,
-  likeCard,
-} from '../components/cards.js';
+import { createCard, deleteCard, likeCard } from '../components/card.js';
+import { initialCards } from '../components/cards.js';
 import { closeModal, openModal } from '../components/modal.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -55,8 +51,7 @@ function addNewCard(e) {
     cardData,
     openImagePopup,
     deleteCard,
-    likeCard,
-    popupTypeImage
+    likeCard
   );
   cardList.prepend(card);
   formAddCard.reset();
@@ -65,8 +60,10 @@ function addNewCard(e) {
 
 function openImagePopup(cardData) {
   const popupImage = popupTypeImage.querySelector('.popup__image');
+  const popupCaption = popupTypeImage.querySelector('.popup__caption');
   popupImage.src = cardData.link;
   popupImage.alt = cardData.name;
+  popupCaption.textContent = cardData.name;
   popupTypeImage.classList.add('popup_is-opened');
 }
 
@@ -85,8 +82,7 @@ initialCards.forEach((item) => {
     item,
     openImagePopup,
     deleteCard,
-    likeCard,
-    popupTypeImage
+    likeCard
   );
   cardList.append(card);
 });
