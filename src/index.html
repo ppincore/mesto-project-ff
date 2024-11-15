@@ -46,17 +46,21 @@
             <input
               type="text"
               name="name"
+              id = 'input__name'
               class="popup__input popup__input_type_name"
               placeholder="Имя"
               required
             />
+            <span class="popup__error input__name-error"></span>
             <input
               type="text"
               name="description"
+              id = 'input__description'
               class="popup__input popup__input_type_description"
               placeholder="Занятие"
               required
             />
+            <span class="popup__error input__description-error"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
@@ -70,18 +74,23 @@
           <form class="popup__form" name="new-place">
             <input
               type="text"
+              id="input__card-name"
               name="place-name"
               class="popup__input popup__input_type_card-name"
               placeholder="Название"
+              
               required
             />
+            <span class="popup__error input__card-name-error"></span>
             <input
               type="url"
+              id="input__card-link"
               name="link"
               class="popup__input popup__input_type_url"
               placeholder="Ссылка на картинку"
               required
             />
+            <span class="popup__error input__card-link-error"></span>
             <button type="submit" class="button popup__button">
               Сохранить
             </button>
