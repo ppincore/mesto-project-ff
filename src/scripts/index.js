@@ -26,14 +26,14 @@ const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
 // Форма 1
 const formEditProfile = document.forms['edit-profile'];
 const nameInput = formEditProfile.querySelector('.popup__input_type_name');
-nameInput.setAttribute('minlength', '2')
-nameInput.setAttribute('mixlength', '40')
+nameInput.setAttribute('minlength', '2');
+nameInput.setAttribute('mixlength', '40');
 const jobInput = formEditProfile.querySelector(
   '.popup__input_type_description'
 );
 
-jobInput.setAttribute('minlength', '2')
-jobInput.setAttribute('mixlength', '200')
+jobInput.setAttribute('minlength', '2');
+jobInput.setAttribute('mixlength', '200');
 
 // эл-ы ошибок Форма 1
 
@@ -45,8 +45,8 @@ const jobErrorMessage = formEditProfile.querySelector(`.${jobInput.id}-error`);
 // Форма 2
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
-cardNamePlace.setAttribute('minlength', '2')
-cardNamePlace.setAttribute('mixlength', '30')
+cardNamePlace.setAttribute('minlength', '2');
+cardNamePlace.setAttribute('mixlength', '30');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 // эл-ы ошибок Форма 2
 const cardNameErrorMessage = formAddCard.querySelector(
@@ -108,10 +108,6 @@ initialCards.forEach((item) => {
   cardList.append(card);
 });
 
-formAddCard.addEventListener('submit', addNewCard);
-
-formEditProfile.addEventListener('submit', editProfileSection);
-
 addButton.addEventListener('click', (e) => {
   openModal(popupTypeNewCard);
 });
@@ -127,3 +123,27 @@ closePopupButton.forEach((button) => {
     closeModal(button.closest('.popup_is-opened'))
   );
 });
+
+// formAddCard.addEventListener('submit', addNewCard);
+
+// formEditProfile.addEventListener('submit', editProfileSection);
+
+function showInputError(formElement, inputElement, errorMessage) {
+  const errorElem = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.textContent = errorMessage;
+  errorElem.classList.add('form__input-error_active');
+  inputElement.classList.add('form__input_type_error');
+}
+function hideInputError(formElement, inputElement) {
+  const errorElem = formElement.querySelector(`.${inputElement.id}-error`);
+  inputElement.textContent = '';
+  errorElem.classList.remove('form__input-error_active');
+  inputElement.classList.remove('form__input_type_error');
+}
+
+function checkInputValidity(formElement, inputElement) {
+  return !inputElement.valididty.valid
+    ? showInputError(formElement, inputElement, inputElement.validationMessage)
+    : hideInputError(formElement, inputElement);
+    
+}
