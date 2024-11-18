@@ -45,7 +45,7 @@ function checkInputValidity({
   }
 }
 function toggleButton({ inputList, submitButton, inactiveButtonClass }) {
-  if (inputList.some((input) => input.validity.valid)) {
+  if (inputList.some((input) => !input.validity.valid)) {
     submitButton.disabled = true;
     submitButton.classList.add(inactiveButtonClass);
   } else {
@@ -101,5 +101,32 @@ function enableValidation({
     });
   });
 }
-function clearValidation() {}
+function clearValidation(
+  formElement,
+  {
+    submitButtonSelector,
+    inactiveButtonClass,
+    inputSelector,
+    inputErrorClass,
+    errorClass,
+  }
+) {
+  const inputList = [...formElement.querySelectorAll(inputSelector)];
+  const submitButtonElement = formElement.querySelector(submitButtonSelector);
+
+  inputList.forEach((inputElement) => {
+    hideInputError({
+      formElement,
+      inputElement,
+      inputErrorClass,
+      errorClass,
+    });
+  });
+
+  toggleButton({
+    inputList,
+    submitButtonElement,
+    inactiveButtonClass,
+  });
+}
 export { enableValidation, clearValidation };

@@ -36,12 +36,20 @@ const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 cardNamePlace.setAttribute('minlength', '2');
 cardNamePlace.setAttribute('mixlength', '30');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
-
+const validationConfig ={
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
 
 function editProfileSection(e) {
   e.preventDefault();
   profileTitle.textContent = nameInput.value;
   profileDescription.textContent = jobInput.value;
+
   closeModal(popupTypeEdit);
 }
 
@@ -60,6 +68,7 @@ function addNewCard(e) {
   );
   cardList.prepend(card);
   formAddCard.reset();
+
   closeModal(popupTypeNewCard);
 }
 
@@ -106,16 +115,9 @@ closePopupButton.forEach((button) => {
   );
 });
 
-// formAddCard.addEventListener('submit', addNewCard);
+formAddCard.addEventListener('submit', addNewCard);
 
-// formEditProfile.addEventListener('submit', editProfileSection);
+formEditProfile.addEventListener('submit', editProfileSection);
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}); 
+enableValidation(validationConfig); 
 
