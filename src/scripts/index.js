@@ -106,9 +106,9 @@ closePopupButton.forEach((button) => {
   );
 });
 
-formAddCard.addEventListener('submit', addNewCard);
+// formAddCard.addEventListener('submit', addNewCard);
 
-formEditProfile.addEventListener('submit', editProfileSection);
+// formEditProfile.addEventListener('submit', editProfileSection);
 
 enableValidation({
   formSelector: '.popup__form',
