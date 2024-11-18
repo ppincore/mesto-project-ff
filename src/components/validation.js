@@ -5,9 +5,7 @@ function showValidation({
   errorClass,
   errorMessage,
 }) {
-
   const errorElement = formElement.querySelector(`.${inputElement.id}-error`);
-  console.log(errorElement)
   errorElement.classList.add(errorClass);
   errorElement.textContent = errorMessage;
   inputElement.classList.add(inputErorrClass);
@@ -47,7 +45,6 @@ function checkInputValidity({
   }
 }
 function toggleButton({ inputList, submitButton, inactiveButtonClass }) {
-
   if (inputList.some((input) => input.validity.valid)) {
     submitButton.disabled = true;
     submitButton.classList.add(inactiveButtonClass);
@@ -65,19 +62,21 @@ function setEvents({
   errorClass,
 }) {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
-  
+
   const submitButton = formElement.querySelector(submitButtonSelector);
-  toggleButton({inputList, submitButton, inactiveButtonClass});
+
+  toggleButton({ inputList, submitButton, inactiveButtonClass });
+
   inputList.forEach((inputElement) => {
-    inputElement.addEventListener('input', () =>
+    inputElement.addEventListener('input', () => {
       checkInputValidity({
         formElement,
         inputElement,
         errorClass,
         inputErrorClass,
-      })
-    );
-    toggleButton({inputList, submitButton, inactiveButtonClass});
+      });
+      toggleButton({ inputList, submitButton, inactiveButtonClass });
+    });
   });
 }
 function enableValidation({
@@ -88,11 +87,10 @@ function enableValidation({
   inputErrorClass,
   errorClass,
 }) {
+  const formList = document.querySelectorAll(formSelector);
 
-  const formList = document.querySelectorAll(formSelector)
-
-  formList.forEach((formElement)=>{
-    formElement.addEventListener('submit', (e)=>e.preventDefault())
+  formList.forEach((formElement) => {
+    formElement.addEventListener('submit', (e) => e.preventDefault());
     setEvents({
       formElement,
       inputSelector,
@@ -100,10 +98,8 @@ function enableValidation({
       inactiveButtonClass,
       inputErrorClass,
       errorClass,
-    })
-  })
-
-
+    });
+  });
 }
 function clearValidation() {}
 export { enableValidation, clearValidation };
