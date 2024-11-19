@@ -21,7 +21,6 @@ function hideValidation({
   errorElement.textContent = '';
   inputElement.classList.remove(inputErorrClass);
 }
-
 function checkInputValidity({
   formElement,
   inputElement,
@@ -44,14 +43,13 @@ function checkInputValidity({
     hideValidation({ formElement, inputElement, inputErorrClass, errorClass });
   }
 }
-function toggleButton({ inputList, submitButton, inactiveButtonClass }) {
-  console.log(submitButton)
+function toggleButton({ inputList, submitButtonElement, inactiveButtonClass }) {
   if (inputList.some((input) => !input.validity.valid)) {
-    submitButton.disabled = true;
-    submitButton.classList.add(inactiveButtonClass);
+    submitButtonElement.disabled = true;
+    submitButtonElement.classList.add(inactiveButtonClass);
   } else {
-    submitButton.disabled = false;
-    submitButton.classList.remove(inactiveButtonClass);
+    submitButtonElement.disabled = false;
+    submitButtonElement.classList.remove(inactiveButtonClass);
   }
 }
 function setEvents({
@@ -64,9 +62,9 @@ function setEvents({
 }) {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
 
-  const submitButton = formElement.querySelector(submitButtonSelector);
+  const submitButtonElement = formElement.querySelector(submitButtonSelector);
 
-  toggleButton({ inputList, submitButton, inactiveButtonClass });
+  toggleButton({ inputList, submitButtonElement, inactiveButtonClass });
 
   inputList.forEach((inputElement) => {
     inputElement.addEventListener('input', () => {
@@ -76,7 +74,7 @@ function setEvents({
         errorClass,
         inputErrorClass,
       });
-      toggleButton({ inputList, submitButton, inactiveButtonClass });
+      toggleButton({ inputList, submitButtonElement, inactiveButtonClass });
     });
   });
 }
@@ -112,9 +110,9 @@ function clearValidation(
     errorClass,
   }
 ) {
-  const inputList = [...formElement.querySelectorAll(inputSelector)];
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const submitButtonElement = formElement.querySelector(submitButtonSelector);
-
+  console.log(inputList,submitButtonElement)
   inputList.forEach((inputElement) => {
     hideValidation({
       formElement,
@@ -123,12 +121,10 @@ function clearValidation(
       errorClass,
     });
   });
-
   toggleButton({
     inputList,
     submitButtonElement,
     inactiveButtonClass,
   });
-
-}
+};
 export { enableValidation, clearValidation };
