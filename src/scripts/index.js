@@ -1,8 +1,8 @@
 import '../pages/index.css';
 import { createCard, deleteCard, likeCard } from '../components/card.js';
-import { getInitialCards } from '../components/api.js';
+import { getInitialCards,getProfileData } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
-import { enableValidation, clearValidation } from '../components/validation.js'
+import {enableValidation, clearValidation} from '../components/validation.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -15,6 +15,7 @@ const profileTitle = profileSection.querySelector('.profile__title');
 const profileDescription = profileSection.querySelector(
   '.profile__description'
 );
+const profileAvatar = profileSection.querySelector('.profile__image')
 
 // Попапы
 const popups = document.querySelectorAll('.popup');
@@ -33,8 +34,6 @@ const jobInput = formEditProfile.querySelector(
 // Форма 2
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
-cardNamePlace.setAttribute('minlength', '2');
-cardNamePlace.setAttribute('mixlength', '30');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 
 const validationConfig = {
@@ -43,10 +42,25 @@ const validationConfig = {
   submitButtonSelector: '.popup__button',
   inactiveButtonClass: 'popup__button_disabled',
   inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}
+  errorClass: 'popup__error_visible',
+};
 
-function buildCardElement(cardData){
+popups.forEach((popup) => {
+  popup.classList.add('popup_is-animated');
+  popup.addEventListener('mousedown', (e) => {
+    if (e.target === popup) {
+      closeModal(popup);
+    }
+  });
+});
+
+closePopupButton.forEach((button) => {
+  button.addEventListener('click', () =>
+    closeModal(button.closest('.popup_is-opened'))
+  );
+});
+
+function buildCardElement(cardData) {
   const card = createCard(
     cardTemplate,
     cardData,
@@ -54,7 +68,7 @@ function buildCardElement(cardData){
     deleteCard,
     likeCard
   );
-   cardList.append(card);
+  cardList.append(card);
 }
 
 function editProfileSection(e) {
@@ -89,46 +103,47 @@ function openImagePopup(cardData) {
   openModal(popupTypeImage);
 }
 
-popups.forEach((popup) => {
-  popup.classList.add('popup_is-animated');
-  popup.addEventListener('mousedown', (e) => {
-    if (e.target === popup) {
-      closeModal(popup);
-    }
-  });
-});
+function setProfileInfo({ name, about,avatar }) {
+  profileTitle.textContent = name;
+  profileDescription.textContent = about;
+  profileAvatar.style = `background-image: url(${avatar})`
+}
 
-getInitialCards()
-  .then((resposeData)=>{
-    resposeData.forEach((cardData)=>{
-      buildCardElement(cardData)
-    })
-  })
-  .catch((err) => {
-    console.log(err)
-  }); 
 
-addButton.addEventListener('click', (e) => {
-  clearValidation(popupTypeNewCard, validationConfig);
+
+
+
+// formAddCard.addEventListener('submit', addNewCard);
+
+// formEditProfile.addEventListener('submit', editProfileSection);
+
+addButton.addEventListener('click', () => {
+  clearValidation(formAddCard, validationConfig);
   openModal(popupTypeNewCard);
 });
 
 editButton.addEventListener('click', () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
-  clearValidation(popupTypeEdit, validationConfig);
+  clearValidation(formEditProfile, validationConfig);
   openModal(popupTypeEdit);
 });
 
-closePopupButton.forEach((button) => {
-  button.addEventListener('click', () =>
-    closeModal(button.closest('.popup_is-opened'))
-  );
-});
+getInitialCards()
+  .then((resposeData) => {
+    resposeData.forEach((cardData) => {
+      buildCardElement(cardData);
+    });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
 
-// formAddCard.addEventListener('submit', addNewCard);
-
-// formEditProfile.addEventListener('submit', editProfileSection);
-
-enableValidation(validationConfig); 
-
+getProfileData()
+  .then((profileData)=>{
+    setProfileInfo(profileData)
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+enableValidation(validationConfig);
