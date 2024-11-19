@@ -1,6 +1,6 @@
 import '../pages/index.css';
 import { createCard, deleteCard, likeCard } from '../components/card.js';
-import { initialCards } from '../components/cards.js';
+import { getInitialCards } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js'
 
@@ -37,6 +37,16 @@ cardNamePlace.setAttribute('minlength', '2');
 cardNamePlace.setAttribute('mixlength', '30');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 
+function buildCardElement(cardData){
+  const card = createCard(
+    cardTemplate,
+    cardData,
+    openImagePopup,
+    deleteCard,
+    likeCard
+  );
+   cardList.append(card);
+}
 
 function editProfileSection(e) {
   e.preventDefault();
@@ -79,16 +89,15 @@ popups.forEach((popup) => {
   });
 });
 
-initialCards.forEach((item) => {
-  const card = createCard(
-    cardTemplate,
-    item,
-    openImagePopup,
-    deleteCard,
-    likeCard
-  );
-  cardList.append(card);
-});
+getInitialCards()
+  .then((resposeData)=>{
+    resposeData.forEach((cardData)=>{
+      buildCardElement(cardData)
+    })
+  })
+  .catch((err) => {
+    console.log(err)
+  }); 
 
 addButton.addEventListener('click', (e) => {
   openModal(popupTypeNewCard);
