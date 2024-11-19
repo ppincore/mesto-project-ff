@@ -45,6 +45,7 @@ function checkInputValidity({
   }
 }
 function toggleButton({ inputList, submitButton, inactiveButtonClass }) {
+  console.log(submitButton)
   if (inputList.some((input) => !input.validity.valid)) {
     submitButton.disabled = true;
     submitButton.classList.add(inactiveButtonClass);
@@ -115,7 +116,7 @@ function clearValidation(
   const submitButtonElement = formElement.querySelector(submitButtonSelector);
 
   inputList.forEach((inputElement) => {
-    hideInputError({
+    hideValidation({
       formElement,
       inputElement,
       inputErrorClass,
@@ -128,5 +129,6 @@ function clearValidation(
     submitButtonElement,
     inactiveButtonClass,
   });
+
 }
 export { enableValidation, clearValidation };

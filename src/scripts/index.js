@@ -37,6 +37,15 @@ cardNamePlace.setAttribute('minlength', '2');
 cardNamePlace.setAttribute('mixlength', '30');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 
+const validationConfig = {
+  formSelector: '.popup__form',
+  inputSelector: '.popup__input',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_type_error',
+  errorClass: 'popup__error_visible'
+}
+
 function buildCardElement(cardData){
   const card = createCard(
     cardTemplate,
@@ -100,12 +109,14 @@ getInitialCards()
   }); 
 
 addButton.addEventListener('click', (e) => {
+  clearValidation(popupTypeNewCard, validationConfig);
   openModal(popupTypeNewCard);
 });
 
 editButton.addEventListener('click', () => {
   nameInput.value = profileTitle.textContent;
   jobInput.value = profileDescription.textContent;
+  clearValidation(popupTypeEdit, validationConfig);
   openModal(popupTypeEdit);
 });
 
@@ -119,12 +130,5 @@ closePopupButton.forEach((button) => {
 
 // formEditProfile.addEventListener('submit', editProfileSection);
 
-enableValidation({
-  formSelector: '.popup__form',
-  inputSelector: '.popup__input',
-  submitButtonSelector: '.popup__button',
-  inactiveButtonClass: 'popup__button_disabled',
-  inputErrorClass: 'popup__input_type_error',
-  errorClass: 'popup__error_visible'
-}); 
+enableValidation(validationConfig); 
 
