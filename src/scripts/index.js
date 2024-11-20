@@ -1,8 +1,13 @@
 import '../pages/index.css';
 import { createCard, deleteCard, likeCard } from '../components/card.js';
-import { getInitialCards,getProfileData } from '../components/api.js';
+import {
+  getInitialCards,
+  getProfileData,
+  patchProfileSection,
+  postNewCard,
+} from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
-import {enableValidation, clearValidation} from '../components/validation.js';
+import { enableValidation, clearValidation } from '../components/validation.js';
 
 const cardTemplate = document.querySelector('#card-template').content;
 
@@ -15,7 +20,7 @@ const profileTitle = profileSection.querySelector('.profile__title');
 const profileDescription = profileSection.querySelector(
   '.profile__description'
 );
-const profileAvatar = profileSection.querySelector('.profile__image')
+const profileAvatar = profileSection.querySelector('.profile__image');
 
 // Попапы
 const popups = document.querySelectorAll('.popup');
@@ -103,19 +108,43 @@ function openImagePopup(cardData) {
   openModal(popupTypeImage);
 }
 
-function setProfileInfo({ name, about,avatar }) {
+function setProfileInfo({ name, about, avatar }) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
-  profileAvatar.style = `background-image: url(${avatar})`
+  profileAvatar.style = `background-image: url(${avatar})`;
 }
 
+formAddCard.addEventListener('submit', (e) => {
+  e.preventDefault();
+  postNewCard({ name: cardNamePlace.value, link: cardImageLink.value })
+  .then((cardData)=>{
+    const card = createCard(
+      cardTemplate,
+      cardData,
+      openImagePopup,
+      deleteCard,
+      likeCard
+    );
+    cardList.prepend(card);
+    formAddCard.reset();
+    closeModal(popupTypeNewCard);
+  })
+});
 
-
-
-
-// formAddCard.addEventListener('submit', addNewCard);
-
-// formEditProfile.addEventListener('submit', editProfileSection);
+formEditProfile.addEventListener('submit', (e) => {
+  e.preventDefault();
+  patchProfileSection({ name: nameInput.value, description: jobInput.value })
+    .then(({ name, about, avatar }) => {
+      setProfileInfo({
+        name,
+        description: about,
+        avatar,
+      });
+      closeModal(popupTypeEdit);
+    })
+    .catch((err) => console.log(err));
+  closeModal(popupTypeEdit);
+});
 
 addButton.addEventListener('click', () => {
   clearValidation(formAddCard, validationConfig);
@@ -129,21 +158,14 @@ editButton.addEventListener('click', () => {
   openModal(popupTypeEdit);
 });
 
-getInitialCards()
-  .then((resposeData) => {
-    resposeData.forEach((cardData) => {
-      buildCardElement(cardData);
+Promise.all([getProfileData(), getInitialCards()]).then(
+  ([{ name, avatar, about }, cardData]) => {
+    setProfileInfo({ name, avatar, about });
+    console.log(cardData)
+    cardData.forEach((card) => {
+      buildCardElement(card);
+     
     });
-  })
-  .catch((err) => {
-    console.log(err);
-  });
-
-getProfileData()
-  .then((profileData)=>{
-    setProfileInfo(profileData)
-  })
-  .catch((err) => {
-    console.log(err);
-  });
+  }
+);
 enableValidation(validationConfig);
