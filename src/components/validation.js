@@ -112,7 +112,6 @@ function clearValidation(
 ) {
   const inputList = Array.from(formElement.querySelectorAll(inputSelector));
   const submitButtonElement = formElement.querySelector(submitButtonSelector);
-  console.log(inputList,submitButtonElement)
   inputList.forEach((inputElement) => {
     hideValidation({
       formElement,
