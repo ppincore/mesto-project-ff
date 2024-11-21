@@ -111,6 +111,7 @@ function openImagePopup(cardData) {
 function setProfileInfo({ name, about, avatar }) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
+  console.log(profileDescription.textContent)
   profileAvatar.style = `background-image: url(${avatar})`;
 }
 
@@ -137,7 +138,7 @@ formEditProfile.addEventListener('submit', (e) => {
     .then(({ name, about, avatar }) => {
       setProfileInfo({
         name,
-        description: about,
+        about,
         avatar,
       });
       closeModal(popupTypeEdit);
