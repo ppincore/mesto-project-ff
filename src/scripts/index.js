@@ -66,8 +66,11 @@ closePopupButton.forEach((button) => {
   );
 });
 
-function deleteCard({cardId, buttonElement}) {
-  console.log(cardId,buttonElement.closest('.card') );
+function deleteCard({ cardId, buttonElement }) {
+  deleteMyCard(cardId)
+    .then(()=>{
+      buttonElement.closest('.card').remove()
+    })
 }
 
 function likeCard() {}
@@ -77,11 +80,10 @@ function buildCardElement(myId, cardData) {
     cardTemplate,
     cardData,
     openImagePopup,
-    deleteCard ,
-    likeCard,
+    onCardDelete: deleteCard,
+    onLikeCard: likeCard,
     myId,
   });
-  console.log(typeof deleteCard)
   cardList.append(card);
 }
 
@@ -102,13 +104,14 @@ formAddCard.addEventListener('submit', (e) => {
   e.preventDefault();
   postNewCard({ name: cardNamePlace.value, link: cardImageLink.value }).then(
     (cardData) => {
-      const card = createCard(
+      const card = createCard({
         cardTemplate,
         cardData,
         openImagePopup,
-        deleteCard,
-        likeCard
-      );
+        onCardDelete: deleteCard,
+        onLikeCard: likeCard,
+        myId
+      });
       cardList.prepend(card);
       formAddCard.reset();
       closeModal(popupTypeNewCard);
@@ -152,4 +155,3 @@ Promise.all([getProfileData(), getInitialCards()]).then(
   }
 );
 enableValidation(validationConfig);
-
