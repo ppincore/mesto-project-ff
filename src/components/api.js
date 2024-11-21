@@ -45,6 +45,13 @@ function postNewCard({ name, link }) {
     })
   }).then((res)=>isResponse(res))
 }
+
+function deleteMyCard(cardId){
+  return fetch(`${config.baseUrl}cards/${cardId}`,{
+    method: 'DELETE',
+    headers: config.headers
+  }).then((res)=> isResponse(res))
+} 
 // function postNewCard() {
 //   return fetch(`${config.baseUrl}cards`,{
 //     headers: config.headers
@@ -55,4 +62,4 @@ function postNewCard({ name, link }) {
 //   });
 // }
 
-export { getInitialCards, getProfileData, patchProfileSection,postNewCard };
+export { getInitialCards, getProfileData, patchProfileSection,postNewCard,deleteMyCard };
