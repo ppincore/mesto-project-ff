@@ -1,0 +1,7 @@
+.card__delete-button-active{
+  opacity: 1;
+}
+
+.card__delete-button-active:hover{
+  opacity: 0.6;
+}
