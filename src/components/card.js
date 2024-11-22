@@ -16,31 +16,38 @@ function createCard({
   deleteButton.disabled = true;
 
   cardImage.addEventListener('click', () => openImagePopup(cardData));
-  likeButton.addEventListener('click', () => onLikeCard(likeButton));
-  if (cardData.owner._id === myId) {
-    deleteButton.addEventListener('click', () => onCardDelete({
+  likeButton.addEventListener('click', () =>
+    onLikeCard({
       cardId: cardData['_id'],
-      cardElement: card,
-      buttonElement: deleteButton,
-    }));
+      counter: likeCount,
+      buttonElement: likeButton,
+    })
+  );
+  if (cardData.owner._id === myId) {
+    deleteButton.addEventListener('click', () =>
+      onCardDelete({
+        cardId: cardData['_id'],
+        cardElement: card,
+        buttonElement: deleteButton,
+      })
+    );
     deleteButton.disabled = false;
     deleteButton.classList.add('card__delete-button-active');
   }
-  likeCount.textContent = cardData.likes.length;
+
+  cardData.likes.length
+    ? (likeCount.textContent = cardData.likes.length)
+    : (likeCount.textContent = '');
+
   cardTitle.textContent = cardData.name;
   cardImage.setAttribute('src', cardData.link);
   cardImage.setAttribute('alt', cardData.name);
 
+  cardData.likes.forEach((likeOwner) => {
+    if (likeOwner._id === myId) {
+      likeButton.classList.add('card__like-button_is-active');
+    }
+  });
   return card;
 }
-
-function deleteCard(cardElement) {
-  const deletedCard = cardElement.closest('.places__item');
-  deletedCard.remove();
-}
-
-function likeCard(likeButton) {
-  likeButton.classList.toggle('card__like-button_is-active');
-}
-
 export { createCard };

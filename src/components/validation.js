@@ -125,5 +125,5 @@ function clearValidation(
     submitButtonElement,
     inactiveButtonClass,
   });
-};
+}
 export { enableValidation, clearValidation };
