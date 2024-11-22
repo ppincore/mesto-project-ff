@@ -7,9 +7,7 @@ const config = {
 };
 
 function isResponse(res) {
-  return res.ok
-    ? res.json()
-    : Promise.reject(`Error ${res.status}`);
+  return res.ok ? res.json() : Promise.reject(`Error ${res.status}`);
 }
 
 function getProfileData() {
@@ -30,9 +28,9 @@ function patchProfileSection({ name, description }) {
     method: 'PATCH',
     body: JSON.stringify({
       name,
-      about:description,
+      about: description,
     }),
-  }).then((res) => isResponse(res))
+  }).then((res) => isResponse(res));
 }
 
 function postNewCard({ name, link }) {
@@ -42,24 +40,37 @@ function postNewCard({ name, link }) {
     body: JSON.stringify({
       name,
       link,
-    })
-  }).then((res)=>isResponse(res))
+    }),
+  }).then((res) => isResponse(res));
 }
 
-function deleteMyCard(cardId){
-  return fetch(`${config.baseUrl}cards/${cardId}`,{
+function deleteMyCard(cardId) {
+  return fetch(`${config.baseUrl}cards/${cardId}`, {
     method: 'DELETE',
-    headers: config.headers
-  }).then((res)=> isResponse(res))
-} 
-// function postNewCard() {
-//   return fetch(`${config.baseUrl}cards`,{
-//     headers: config.headers
-//   }).then((response) => {
-//     if (response.ok) {
-//       return response.json();
-//     } else return Promise.reject(`Error ${response.status}`);
-//   });
-// }
+    headers: config.headers,
+  }).then((res) => isResponse(res));
+}
 
-export { getInitialCards, getProfileData, patchProfileSection,postNewCard,deleteMyCard };
+function putLikeCard(cardId) {
+  return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: config.headers,
+  }).then((res) => isResponse(res));
+}
+
+function deleteLikeCard(cardId) {
+  return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: config.headers,
+  }).then((res) => isResponse(res));
+}
+
+export {
+  getInitialCards,
+  getProfileData,
+  patchProfileSection,
+  postNewCard,
+  deleteMyCard,
+  deleteLikeCard,
+  putLikeCard,
+};
