@@ -82,11 +82,15 @@ function likeCard({ buttonElement, cardId, counter }) {
     console.log(counter.textContent)
     });
   } else {
-    deleteLikeCard(cardId).then((likes) => {
-      counter.textContent = likes.length
-      buttonElement.classList.toggle('card__like-button_is-active');
-      console.log(counter.textContent)
-    });
+    deleteLikeCard(cardId).then(({likes}) => {
+
+        if(!likes.length){
+          counter.textContent = ''
+        }
+        buttonElement.classList.toggle('card__like-button_is-active');
+        counter.textContent = likes.length
+
+    })
   }
 }
 
