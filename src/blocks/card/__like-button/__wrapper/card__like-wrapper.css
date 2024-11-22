@@ -3,5 +3,6 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-block-size: 36px;
   gap: 3px;
 }

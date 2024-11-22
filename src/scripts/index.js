@@ -77,20 +77,14 @@ function deleteCard({ cardId, buttonElement }) {
 function likeCard({ buttonElement, cardId, counter }) {
   if (!buttonElement.classList.contains('card__like-button_is-active')) {
     putLikeCard(cardId).then(({ likes }) => {
-    buttonElement.classList.toggle('card__like-button_is-active');
-    counter.textContent = likes.length
-    console.log(counter.textContent)
+      buttonElement.classList.toggle('card__like-button_is-active');
+      counter.textContent = likes.length;
     });
   } else {
-    deleteLikeCard(cardId).then(({likes}) => {
-
-        if(!likes.length){
-          counter.textContent = ''
-        }
-        buttonElement.classList.toggle('card__like-button_is-active');
-        counter.textContent = likes.length
-
-    })
+    deleteLikeCard(cardId).then(({ likes }) => {
+      buttonElement.classList.toggle('card__like-button_is-active');
+      counter.textContent = !likes.length ? '' : likes.length;
+    });
   }
 }
 
