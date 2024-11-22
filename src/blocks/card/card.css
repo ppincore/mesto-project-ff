@@ -4,7 +4,8 @@
 @import url('./__like-button/_is-active/card__like-button_is-active.css');
 @import url('./__delete-button/card__delete-button.css');
 @import url('./__title/card__title.css');
-
+@import url('./__like-button/__wrapper/card__like-wrapper.css');
+@import url('./__like-button/__counter/card__like-counter.css');
 .card {
   font-family: 'Inter', Arial, sans-serif;
   -webkit-border-radius: 10px;
