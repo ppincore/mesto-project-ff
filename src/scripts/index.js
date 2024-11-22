@@ -6,6 +6,8 @@ import {
   patchProfileSection,
   postNewCard,
   deleteMyCard,
+  deleteLikeCard,
+  putLikeCard,
 } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
@@ -67,13 +69,26 @@ closePopupButton.forEach((button) => {
 });
 
 function deleteCard({ cardId, buttonElement }) {
-  deleteMyCard(cardId)
-    .then(()=>{
-      buttonElement.closest('.card').remove()
-    })
+  deleteMyCard(cardId).then(() => {
+    buttonElement.closest('.card').remove();
+  });
 }
 
-function likeCard() {}
+function likeCard({ buttonElement, cardId, counter }) {
+  if (!buttonElement.classList.contains('card__like-button_is-active')) {
+    putLikeCard(cardId).then(({ likes }) => {
+    buttonElement.classList.toggle('card__like-button_is-active');
+    counter.textContent = likes.length
+    console.log(counter.textContent)
+    });
+  } else {
+    deleteLikeCard(cardId).then((likes) => {
+      counter.textContent = likes.length
+      buttonElement.classList.toggle('card__like-button_is-active');
+      console.log(counter.textContent)
+    });
+  }
+}
 
 function buildCardElement(myId, cardData) {
   const card = createCard({
@@ -110,7 +125,6 @@ formAddCard.addEventListener('submit', (e) => {
         openImagePopup,
         onCardDelete: deleteCard,
         onLikeCard: likeCard,
-        myId
       });
       cardList.prepend(card);
       formAddCard.reset();
