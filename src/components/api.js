@@ -32,6 +32,15 @@ function patchProfileSection({ name, description }) {
     }),
   }).then((res) => isResponse(res));
 }
+function patchProfilePhoto({ avatar}) {
+  return fetch(`${config.baseUrl}users/me`, {
+    headers: config.headers,
+    method: 'PATCH',
+    body: JSON.stringify({
+      avatar
+    }),
+  }).then((res) => isResponse(res));
+}
 
 function postNewCard({ name, link }) {
   return fetch(`${config.baseUrl}cards`, {
@@ -73,4 +82,5 @@ export {
   deleteMyCard,
   deleteLikeCard,
   putLikeCard,
+  patchProfilePhoto
 };

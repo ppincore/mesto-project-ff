@@ -8,6 +8,7 @@ import {
   deleteMyCard,
   deleteLikeCard,
   putLikeCard,
+  patchProfilePhoto
 } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
@@ -30,6 +31,7 @@ const popups = document.querySelectorAll('.popup');
 const popupTypeImage = document.querySelector('.popup_type_image');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
 const popupTypeEdit = document.querySelector('.popup_type_edit');
+const popupTypeEditAvatar = document.querySelector('.popup_type_avatar_edit');
 const closePopupButton = document.querySelectorAll('.popup__close');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
@@ -43,6 +45,9 @@ const jobInput = formEditProfile.querySelector(
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
+// Форма 3
+const formChangeProfileImage = document.forms['edit-avatar'];
+const ProfileImageLink = formChangeProfileImage.querySelector('.popup__input_photo_url');
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -110,7 +115,7 @@ function openImagePopup(cardData) {
 function setProfileInfo({ name, about, avatar }) {
   profileTitle.textContent = name;
   profileDescription.textContent = about;
-  profileAvatar.style = `background-image: url(${avatar})`;
+  profileAvatar.style.backgroundImage = `url(${avatar})`;
 }
 
 formAddCard.addEventListener('submit', (e) => {
@@ -145,6 +150,19 @@ formEditProfile.addEventListener('submit', (e) => {
     .catch((err) => console.log(err));
   closeModal(popupTypeEdit);
 });
+formChangeProfileImage.addEventListener('submit', (e) => {
+  console.log(ProfileImageLink.value)
+  e.preventDefault()
+  patchProfilePhoto({avatar:ProfileImageLink.value})
+  .then(({avatar})=>{
+    setProfileInfo({
+      avatar
+    });
+    closeModal(popupTypeEdit);
+  })
+  .catch((err) => console.log(err));
+closeModal(popupTypeEdit);
+});
 
 addButton.addEventListener('click', () => {
   clearValidation(formAddCard, validationConfig);
@@ -157,6 +175,11 @@ editButton.addEventListener('click', () => {
   clearValidation(formEditProfile, validationConfig);
   openModal(popupTypeEdit);
 });
+
+profileAvatar.addEventListener('click',()=>{
+  clearValidation(formChangeProfileImage,validationConfig)
+  openModal(popupTypeEditAvatar)
+})
 
 Promise.all([getProfileData(), getInitialCards()]).then(
   ([{ name, avatar, about, _id }, cardData]) => {

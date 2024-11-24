@@ -10,7 +10,7 @@
     <title>Mesto</title>
   </head>
   <body class="page">
-    <div class="page__content">
+    < class="page__content">
       <header class="header page__section">
         <img
           src="<%=require('./images/logo.svg')%>"
@@ -22,7 +22,7 @@
         <section class="profile page__section">
           <div
             class="profile__image"
-            style="background-image: url(<%=require('./images/avatar.jpg')%>)"
+            
           ></div>
           <div class="profile__info">
             <h1 class="profile__title"></h1>
@@ -75,26 +75,6 @@
           </form>
         </div>
       </div>
-      <div class="popup popup_type_avatar_edit">
-        <div class="popup__content">
-          <button type="button" class="popup__close"></button>
-          <h3 class="popup__title">Обновить аватар</h3>
-          <form class="popup__form" name="edit-avatar" novalidate>
-            <input
-              type="url"
-              id="avatar-link"
-              name="link"
-              class="popup__input popup__input_type_url"
-              placeholder="Ссылка на картинку"
-              required
-            />
-            <span class="popup__error input__card-link-error"></span>
-            <button type="submit" class="button popup__button">
-              Сохранить
-            </button>
-          </form>
-        </div>
-      </div>
       <div class="popup popup_type_new-card">
         <div class="popup__content">
           <button type="button" class="popup__close"></button>
@@ -133,7 +113,26 @@
           <p class="popup__caption"></p>
         </div>
       </div>
-    </div>
+      <div class="popup popup_type_avatar_edit">
+        <div class="popup__content">
+          <button type="button" class="popup__close"></button>
+          <h3 class="popup__title">Обновить аватар</h3>
+          <form class="popup__form" name="edit-avatar" novalidate>
+            <input
+              type="url"
+              id="input__photo-link"
+              name="link"
+              class="popup__input popup__input_photo_url"
+              placeholder="Ссылка на картинку"
+              required
+            />
+            <span class="popup__error input__photo-link-error"></span>
+            <button type="submit" class="button popup__button">
+              Сохранить
+            </button>
+          </form>
+        </div>
+      </div>
     <template id="card-template">
       <li class="places__item card">
         <img class="card__image" src="" alt="" />
