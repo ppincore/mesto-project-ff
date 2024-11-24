@@ -13,8 +13,6 @@ function createCard({
   const likeButton = card.querySelector('.card__like-button');
   const likeCount = card.querySelector('.card__like-counter');
 
-  deleteButton.disabled = true;
-
   cardImage.addEventListener('click', () => openImagePopup(cardData));
 
   likeButton.addEventListener('click', () =>
@@ -24,8 +22,8 @@ function createCard({
       buttonElement: likeButton,
     })
   );
-
   if (cardData.owner._id === myId) {
+    deleteButton.classList.add('card__delete-button-active');
     deleteButton.addEventListener('click', () =>
       onCardDelete({
         cardId: cardData['_id'],
@@ -33,8 +31,7 @@ function createCard({
         buttonElement: deleteButton,
       })
     );
-    deleteButton.disabled = false;
-    deleteButton.classList.add('card__delete-button-active');
+    
   }
 
   cardData.likes.length

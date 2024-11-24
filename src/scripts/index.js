@@ -8,7 +8,7 @@ import {
   deleteMyCard,
   deleteLikeCard,
   putLikeCard,
-  patchProfilePhoto
+  patchProfilePhoto,
 } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
@@ -47,7 +47,9 @@ const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
 // Форма 3
 const formChangeProfileImage = document.forms['edit-avatar'];
-const ProfileImageLink = formChangeProfileImage.querySelector('.popup__input_photo_url');
+const profileImageLink = formChangeProfileImage.querySelector(
+  '.popup__input_photo_url'
+);
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -128,6 +130,7 @@ formAddCard.addEventListener('submit', (e) => {
         openImagePopup,
         onCardDelete: deleteCard,
         onLikeCard: likeCard,
+        myId: cardData.owner['_id'],
       });
       cardList.prepend(card);
       formAddCard.reset();
@@ -150,18 +153,37 @@ formEditProfile.addEventListener('submit', (e) => {
     .catch((err) => console.log(err));
   closeModal(popupTypeEdit);
 });
+
+// formChangeProfileImage.addEventListener('submit', (e) => {
+//   e.preventDefault();
+//   const link = ProfileImageLink.value;
+//   patchProfilePhoto({ link })
+//     .then(() => {
+//       setProfileInfo({
+//         avatar: link,
+//       });
+//       closeModal(popupTypeEditAvatar);
+//     })
+//     .catch((err) => {
+//       closeModal(popupTypeEditAvatar);
+//       console.log(err);
+//     });
+// });
 formChangeProfileImage.addEventListener('submit', (e) => {
-  console.log(ProfileImageLink.value)
-  e.preventDefault()
-  patchProfilePhoto({avatar:ProfileImageLink.value})
-  .then(({avatar})=>{
-    setProfileInfo({
-      avatar
+  e.preventDefault();
+  patchProfilePhoto(profileImageLink.value)
+    .then(({ name, about, avatar }) => {
+      setProfileInfo({
+        name,
+        description: about,
+        avatar,
+      });
+      closeModal(popupTypeEditAvatar);
+    })
+    .catch((error) => {
+      console.error(error);
+      closeModal(popupTypeEditAvatar);
     });
-    closeModal(popupTypeEdit);
-  })
-  .catch((err) => console.log(err));
-closeModal(popupTypeEdit);
 });
 
 addButton.addEventListener('click', () => {
@@ -176,10 +198,10 @@ editButton.addEventListener('click', () => {
   openModal(popupTypeEdit);
 });
 
-profileAvatar.addEventListener('click',()=>{
-  clearValidation(formChangeProfileImage,validationConfig)
-  openModal(popupTypeEditAvatar)
-})
+profileAvatar.addEventListener('click', () => {
+  clearValidation(formChangeProfileImage, validationConfig);
+  openModal(popupTypeEditAvatar);
+});
 
 Promise.all([getProfileData(), getInitialCards()]).then(
   ([{ name, avatar, about, _id }, cardData]) => {

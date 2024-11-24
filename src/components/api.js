@@ -7,13 +7,17 @@ const config = {
 };
 
 function isResponse(res) {
+  
   return res.ok ? res.json() : Promise.reject(`Error ${res.status}`);
 }
 
 function getProfileData() {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers,
-  }).then((res) => isResponse(res));
+  }).then((res) =>{
+
+    return isResponse(res)
+  })
 }
 
 function getInitialCards() {
@@ -32,15 +36,27 @@ function patchProfileSection({ name, description }) {
     }),
   }).then((res) => isResponse(res));
 }
-function patchProfilePhoto({ avatar}) {
+// function patchProfilePhoto({link }) {
+//   return fetch(`${config.baseUrl}users/me`, {
+//     headers: config.headers,
+//     method: 'PATCH',
+//     body: JSON.stringify({
+//       avatar:link
+//     }),
+//   }).then((res) => isResponse(res));
+// }
+
+function patchProfilePhoto({ name, description }) {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers,
     method: 'PATCH',
     body: JSON.stringify({
-      avatar
+      name,
+      about: description,
     }),
   }).then((res) => isResponse(res));
-}
+};
+
 
 function postNewCard({ name, link }) {
   return fetch(`${config.baseUrl}cards`, {
