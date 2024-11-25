@@ -119,6 +119,9 @@ function setProfileInfo({ name, about, avatar }) {
   profileDescription.textContent = about;
   profileAvatar.style.backgroundImage = `url(${avatar})`;
 }
+function setProfilePhoto({ avatar }) {
+  profileAvatar.style.backgroundImage = `url(${avatar})`;
+}
 
 formAddCard.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -154,27 +157,11 @@ formEditProfile.addEventListener('submit', (e) => {
   closeModal(popupTypeEdit);
 });
 
-// formChangeProfileImage.addEventListener('submit', (e) => {
-//   e.preventDefault();
-//   const link = ProfileImageLink.value;
-//   patchProfilePhoto({ link })
-//     .then(() => {
-//       setProfileInfo({
-//         avatar: link,
-//       });
-//       closeModal(popupTypeEditAvatar);
-//     })
-//     .catch((err) => {
-//       closeModal(popupTypeEditAvatar);
-//       console.log(err);
-//     });
-// });
 formChangeProfileImage.addEventListener('submit', (e) => {
   e.preventDefault();
   patchProfilePhoto(profileImageLink.value)
-    .then(({avatar}) => {
-      console.log(avatar)
-      profileAvatar.style.backgroundImage = `url(${avatar})`;
+    .then(({ name, about, avatar }) => {
+      setProfilePhoto({ avatar });
       closeModal(popupTypeEditAvatar);
     })
     .catch((error) => {
@@ -209,4 +196,3 @@ Promise.all([getProfileData(), getInitialCards()]).then(
   }
 );
 enableValidation(validationConfig);
-patchProfilePhoto('https://tntmusic.ru/media/content/article/2020-05-22_22-22-54__c81602a8-9c7a-11ea-91a1-2d07bdff440c.jpg')

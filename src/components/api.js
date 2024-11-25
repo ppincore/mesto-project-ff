@@ -14,15 +14,13 @@ function getProfileData() {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers,
     method: 'GET',
-  }).then((res) => {
-    return isResponse(res);
-  });
+  }).then(isResponse)
 }
 
 function getInitialCards() {
   return fetch(`${config.baseUrl}cards`, {
     headers: config.headers,
-  }).then((res) => isResponse(res));
+  }).then(isResponse);
 }
 
 function patchProfileSection({ name, about }) {
@@ -33,19 +31,17 @@ function patchProfileSection({ name, about }) {
       name,
       about,
     }),
-  }).then((res) => isResponse(res));
+  }).then(isResponse);
 }
 
 function patchProfilePhoto(link) {
-  return fetch(`${config.baseUrl}users/me`, {
+  return fetch(`${config.baseUrl}users/me/avatar`, {
     method: 'PATCH',
     headers: config.headers,
     body: JSON.stringify({
       avatar: link,
     }),
-  }).then((res) => {
-    return isResponse(res);
-  });
+  }).then(isResponse);
 }
 
 function postNewCard({ name, link }) {
@@ -56,7 +52,7 @@ function postNewCard({ name, link }) {
       name,
       link,
     }),
-  }).then((res) => isResponse(res));
+  }).then(isResponse);
 }
 
 function deleteMyCard(cardId) {
@@ -70,14 +66,14 @@ function putLikeCard(cardId) {
   return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
     method: 'PUT',
     headers: config.headers,
-  }).then((res) => isResponse(res));
+  }).then(isResponse);
 }
 
 function deleteLikeCard(cardId) {
   return fetch(`${config.baseUrl}cards/likes/${cardId}`, {
     method: 'DELETE',
     headers: config.headers,
-  }).then((res) => isResponse(res));
+  }).then(isResponse);
 }
 
 export {
