@@ -14,4 +14,5 @@
 @import url('../blocks/popup/__input/_type_error/popup__input_type_error.css');
 @import url('../blocks/popup/__error/__visible/popup__error_visible.css');
 @import url('../blocks/popup/__button/_diasbled/popup__button_disabled.css');
+@import url('../blocks/popup/__button/__loading/popup__button-loading.css');
 @import url('../blocks/card/__delete-button/__active/card__delete-button-active.css');
