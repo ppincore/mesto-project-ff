@@ -26,7 +26,6 @@ const profileDescription = profileSection.querySelector(
 );
 const profileAvatar = profileSection.querySelector('.profile__image');
 
-// Попапы
 const popups = document.querySelectorAll('.popup');
 const popupTypeImage = document.querySelector('.popup_type_image');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
@@ -35,21 +34,23 @@ const popupTypeEditAvatar = document.querySelector('.popup_type_avatar_edit');
 const closePopupButton = document.querySelectorAll('.popup__close');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
-// Форма 1
+const popupConfirmDelete = document.querySelector('.popup_type_card-delete');
+
 const formEditProfile = document.forms['edit-profile'];
 const nameInput = formEditProfile.querySelector('.popup__input_type_name');
 const jobInput = formEditProfile.querySelector(
   '.popup__input_type_description'
 );
-// Форма 2
+
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
-// Форма 3
+
 const formChangeProfileImage = document.forms['edit-avatar'];
 const profileImageLink = formChangeProfileImage.querySelector(
   '.popup__input_photo_url'
 );
+const conifirmForm = document.forms['conifirm-delete'];
 
 const validationConfig = {
   formSelector: '.popup__form',
@@ -76,9 +77,22 @@ closePopupButton.forEach((button) => {
 });
 
 function deleteCard({ cardId, buttonElement }) {
-  deleteMyCard(cardId).then(() => {
-    buttonElement.closest('.card').remove();
-  });
+  openModal(popupConfirmDelete);
+  function deleteCardSubmit(e) {
+    e.preventDefault();
+    deleteMyCard(cardId)
+      .then(() => {
+        buttonElement.closest('.card').remove();
+        closeModal(popupConfirmDelete);
+      })
+      .catch((err) => {
+        console.error('Ошибка при удалении карточки:', err);
+      })
+      .finally(() => {
+        conifirmForm.removeEventListener('submit', deleteCardSubmit);
+      });
+  }
+  conifirmForm.addEventListener('submit', deleteCardSubmit);
 }
 
 function likeCard({ buttonElement, cardId, counter }) {
@@ -135,6 +149,7 @@ formAddCard.addEventListener('submit', (e) => {
         onLikeCard: likeCard,
         myId: cardData.owner['_id'],
       });
+
       cardList.prepend(card);
       formAddCard.reset();
       closeModal(popupTypeNewCard);

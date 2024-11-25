@@ -33,7 +33,6 @@ function createCard({
     );
     
   }
-
   cardData.likes.length
     ? (likeCount.textContent = cardData.likes.length)
     : (likeCount.textContent = '');
