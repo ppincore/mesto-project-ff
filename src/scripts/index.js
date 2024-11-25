@@ -129,11 +129,15 @@ function buildCardElement(myId, cardData) {
   cardList.append(card);
 }
 
-function openImagePopup(cardData) {
-  popupImage.src = cardData.link;
-  popupImage.alt = cardData.name;
-  popupImageCaption.textContent = cardData.name;
-  openModal(popupTypeImage);
+function openImagePopup({ link, name }) {
+  popupImage.src = '';
+  popupImage.alt = '';
+  popupImageCaption.textContent = name;
+  (function popupOnLoad() {
+    openModal(popupTypeImage);
+  })();
+  popupImage.src = link;
+  popupImage.alt = name;
 }
 
 function setProfileInfo({ name, about, avatar }) {
@@ -186,6 +190,7 @@ formEditProfile.addEventListener('submit', (e) => {
 
 formChangeProfileImage.addEventListener('submit', (e) => {
   e.preventDefault();
+
   patchProfilePhoto(profileImageLink.value)
     .then(({ name, about, avatar }) => {
       setProfilePhoto({ avatar });
@@ -198,6 +203,7 @@ formChangeProfileImage.addEventListener('submit', (e) => {
 });
 
 addButton.addEventListener('click', () => {
+  formAddCard.reset();
   clearValidation(formAddCard, validationConfig);
   openModal(popupTypeNewCard);
 });
@@ -210,6 +216,7 @@ editButton.addEventListener('click', () => {
 });
 
 profileAvatar.addEventListener('click', () => {
+  formChangeProfileImage.reset();
   clearValidation(formChangeProfileImage, validationConfig);
   openModal(popupTypeEditAvatar);
 });
