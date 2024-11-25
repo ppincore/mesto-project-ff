@@ -7,17 +7,16 @@ const config = {
 };
 
 function isResponse(res) {
-  
   return res.ok ? res.json() : Promise.reject(`Error ${res.status}`);
 }
 
 function getProfileData() {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers,
-  }).then((res) =>{
-
-    return isResponse(res)
-  })
+    method: 'GET',
+  }).then((res) => {
+    return isResponse(res);
+  });
 }
 
 function getInitialCards() {
@@ -26,37 +25,28 @@ function getInitialCards() {
   }).then((res) => isResponse(res));
 }
 
-function patchProfileSection({ name, description }) {
+function patchProfileSection({ name, about }) {
   return fetch(`${config.baseUrl}users/me`, {
     headers: config.headers,
     method: 'PATCH',
     body: JSON.stringify({
       name,
-      about: description,
+      about,
     }),
   }).then((res) => isResponse(res));
 }
-// function patchProfilePhoto({link }) {
-//   return fetch(`${config.baseUrl}users/me`, {
-//     headers: config.headers,
-//     method: 'PATCH',
-//     body: JSON.stringify({
-//       avatar:link
-//     }),
-//   }).then((res) => isResponse(res));
-// }
 
-function patchProfilePhoto({ name, description }) {
+function patchProfilePhoto(link) {
   return fetch(`${config.baseUrl}users/me`, {
-    headers: config.headers,
     method: 'PATCH',
+    headers: config.headers,
     body: JSON.stringify({
-      name,
-      about: description,
+      avatar: link,
     }),
-  }).then((res) => isResponse(res));
-};
-
+  }).then((res) => {
+    return isResponse(res);
+  });
+}
 
 function postNewCard({ name, link }) {
   return fetch(`${config.baseUrl}cards`, {
@@ -98,5 +88,5 @@ export {
   deleteMyCard,
   deleteLikeCard,
   putLikeCard,
-  patchProfilePhoto
+  patchProfilePhoto,
 };

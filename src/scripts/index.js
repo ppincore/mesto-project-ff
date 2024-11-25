@@ -141,7 +141,7 @@ formAddCard.addEventListener('submit', (e) => {
 
 formEditProfile.addEventListener('submit', (e) => {
   e.preventDefault();
-  patchProfileSection({ name: nameInput.value, description: jobInput.value })
+  patchProfileSection({ name: nameInput.value, about: jobInput.value })
     .then(({ name, about, avatar }) => {
       setProfileInfo({
         name,
@@ -172,12 +172,9 @@ formEditProfile.addEventListener('submit', (e) => {
 formChangeProfileImage.addEventListener('submit', (e) => {
   e.preventDefault();
   patchProfilePhoto(profileImageLink.value)
-    .then(({ name, about, avatar }) => {
-      setProfileInfo({
-        name,
-        description: about,
-        avatar,
-      });
+    .then(({avatar}) => {
+      console.log(avatar)
+      profileAvatar.style.backgroundImage = `url(${avatar})`;
       closeModal(popupTypeEditAvatar);
     })
     .catch((error) => {
@@ -212,3 +209,4 @@ Promise.all([getProfileData(), getInitialCards()]).then(
   }
 );
 enableValidation(validationConfig);
+patchProfilePhoto('https://tntmusic.ru/media/content/article/2020-05-22_22-22-54__c81602a8-9c7a-11ea-91a1-2d07bdff440c.jpg')
