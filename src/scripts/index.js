@@ -12,11 +12,8 @@ import {
 } from '../components/api.js';
 import { closeModal, openModal } from '../components/modal.js';
 import { enableValidation, clearValidation } from '../components/validation.js';
-
 const cardTemplate = document.querySelector('#card-template').content;
-
 const cardList = document.querySelector('.places__list');
-
 const profileSection = document.querySelector('.profile');
 const editButton = profileSection.querySelector('.profile__edit-button');
 const addButton = profileSection.querySelector('.profile__add-button');
@@ -238,4 +235,5 @@ Promise.all([getProfileData(), getInitialCards()])
   .catch((err) => {
     console.error(`Ошибка:, ${err}`);
   });
+
 enableValidation(validationConfig);

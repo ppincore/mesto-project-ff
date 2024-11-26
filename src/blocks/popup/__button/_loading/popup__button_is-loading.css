@@ -1,6 +1,6 @@
 .popup__button_is-loading {
-  color: transparent; /* Скрыть текст во время загрузки */
-  cursor: default; /* Изменить указатель мыши */
+  color: transparent;
+  cursor: default;
 }
 
 .popup__button_is-loading::before {
