@@ -102,15 +102,23 @@ function deleteCard({ cardId, buttonElement }) {
 
 function likeCard({ buttonElement, cardId, counter }) {
   if (!buttonElement.classList.contains('card__like-button_is-active')) {
-    putLikeCard(cardId).then(({ likes }) => {
-      buttonElement.classList.toggle('card__like-button_is-active');
-      counter.textContent = likes.length;
-    });
+    putLikeCard(cardId)
+      .then(({ likes }) => {
+        buttonElement.classList.toggle('card__like-button_is-active');
+        counter.textContent = likes.length;
+      })
+      .catch((err) => {
+        console.error(`Ошибка:, ${err}`);
+      });
   } else {
-    deleteLikeCard(cardId).then(({ likes }) => {
-      buttonElement.classList.toggle('card__like-button_is-active');
-      counter.textContent = !likes.length ? '' : likes.length;
-    });
+    deleteLikeCard(cardId)
+      .then(({ likes }) => {
+        buttonElement.classList.toggle('card__like-button_is-active');
+        counter.textContent = !likes.length ? '' : likes.length;
+      })
+      .catch((err) => {
+        console.error(`Ошибка:, ${err}`);
+      });
   }
 }
 
@@ -126,11 +134,15 @@ function buildCardElement(myId, cardData) {
   cardList.append(card);
 }
 
-function openImagePopup(cardData) {
-  popupImage.src = cardData.link;
-  popupImage.alt = cardData.name;
-  popupImageCaption.textContent = cardData.name;
-  openModal(popupTypeImage);
+function openImagePopup({ link, name }) {
+  popupImage.src = '';
+  popupImage.alt = '';
+  popupImageCaption.textContent = name;
+  (function popupOnLoad() {
+    openModal(popupTypeImage);
+  })();
+  popupImage.src = link;
+  popupImage.alt = name;
 }
 
 function setProfileInfo({ name, about, avatar }) {
@@ -182,13 +194,14 @@ formEditProfile.addEventListener('submit', (e) => {
 formChangeProfileImage.addEventListener('submit', (e) => {
   showButtonLoading({ state: true, form: formChangeProfileImage });
   e.preventDefault();
+
   patchProfilePhoto(profileImageLink.value)
     .then(({ name, about, avatar }) => {
       setProfilePhoto({ avatar });
       closeModal(popupTypeEditAvatar);
     })
-    .catch((error) => {
-      console.error(error);
+    .catch((err) => {
+      console.error(`Ошибка:, ${err}`);
       closeModal(popupTypeEditAvatar);
     })
     .finally(() =>
@@ -197,6 +210,7 @@ formChangeProfileImage.addEventListener('submit', (e) => {
 });
 
 addButton.addEventListener('click', () => {
+  formAddCard.reset();
   clearValidation(formAddCard, validationConfig);
   openModal(popupTypeNewCard);
 });
@@ -209,16 +223,19 @@ editButton.addEventListener('click', () => {
 });
 
 profileAvatar.addEventListener('click', () => {
+  formChangeProfileImage.reset();
   clearValidation(formChangeProfileImage, validationConfig);
   openModal(popupTypeEditAvatar);
 });
 
-Promise.all([getProfileData(), getInitialCards()]).then(
-  ([{ name, avatar, about, _id }, cardData]) => {
+Promise.all([getProfileData(), getInitialCards()])
+  .then(([{ name, avatar, about, _id }, cardData]) => {
     setProfileInfo({ name, avatar, about });
     cardData.forEach((card) => {
       buildCardElement(_id, card);
     });
-  }
-);
+  })
+  .catch((err) => {
+    console.error(`Ошибка:, ${err}`);
+  });
 enableValidation(validationConfig);

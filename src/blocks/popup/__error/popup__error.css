@@ -7,4 +7,7 @@
   color: #FF0000;
   opacity: 0;
   transition: 0.3s;
+  display: block;
+  min-block-size: 15px;
+  margin-top: 5px;
 }

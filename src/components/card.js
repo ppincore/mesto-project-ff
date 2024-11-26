@@ -13,7 +13,9 @@ function createCard({
   const likeButton = card.querySelector('.card__like-button');
   const likeCount = card.querySelector('.card__like-counter');
 
-  cardImage.addEventListener('click', () => openImagePopup(cardData));
+  cardImage.addEventListener('click', () =>
+    openImagePopup({ link: cardData.link, name: cardData.name })
+  );
 
   likeButton.addEventListener('click', () =>
     onLikeCard({
@@ -31,7 +33,6 @@ function createCard({
         buttonElement: deleteButton,
       })
     );
-    
   }
   cardData.likes.length
     ? (likeCount.textContent = cardData.likes.length)
