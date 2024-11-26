@@ -12,6 +12,7 @@
   border: none;
   transition: visibility 0s, background 0.3s;
   margin-top: 48px;
+  position: relative;
 }
 
 .popup__button:hover {

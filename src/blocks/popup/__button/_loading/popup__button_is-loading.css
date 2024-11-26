@@ -1,0 +1,21 @@
+.popup__button_is-loading {
+  color: transparent; /* Скрыть текст во время загрузки */
+  cursor: default; /* Изменить указатель мыши */
+}
+
+.popup__button_is-loading::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 2px solid white;
+  border-top: 2px solid transparent;
+  border-radius: 50%;
+  animation: spin 0.5s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
