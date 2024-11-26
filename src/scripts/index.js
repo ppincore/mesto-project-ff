@@ -25,7 +25,6 @@ const profileDescription = profileSection.querySelector(
   '.profile__description'
 );
 const profileAvatar = profileSection.querySelector('.profile__image');
-
 const popups = document.querySelectorAll('.popup');
 const popupTypeImage = document.querySelector('.popup_type_image');
 const popupTypeNewCard = document.querySelector('.popup_type_new-card');
@@ -35,17 +34,14 @@ const closePopupButton = document.querySelectorAll('.popup__close');
 const popupImage = popupTypeImage.querySelector('.popup__image');
 const popupImageCaption = popupTypeImage.querySelector('.popup__caption');
 const popupConfirmDelete = document.querySelector('.popup_type_card-delete');
-
 const formEditProfile = document.forms['edit-profile'];
 const nameInput = formEditProfile.querySelector('.popup__input_type_name');
 const jobInput = formEditProfile.querySelector(
   '.popup__input_type_description'
 );
-
 const formAddCard = document.forms['new-place'];
 const cardNamePlace = formAddCard.querySelector('.popup__input_type_card-name');
 const cardImageLink = formAddCard.querySelector('.popup__input_type_url');
-
 const formChangeProfileImage = document.forms['edit-avatar'];
 const profileImageLink = formChangeProfileImage.querySelector(
   '.popup__input_photo_url'
@@ -76,9 +72,17 @@ closePopupButton.forEach((button) => {
   );
 });
 
+function showButtonLoading({ state, form }) {
+  const buttonElement = form.querySelector('.popup__button');
+  return state
+    ? buttonElement.classList.add('popup__button_is-loading')
+    : buttonElement.classList.remove('popup__button_is-loading');
+}
+
 function deleteCard({ cardId, buttonElement }) {
   openModal(popupConfirmDelete);
   function deleteCardSubmit(e) {
+    showButtonLoading({ state: true, form: conifirmForm });
     e.preventDefault();
     deleteMyCard(cardId)
       .then(() => {
@@ -92,6 +96,7 @@ function deleteCard({ cardId, buttonElement }) {
         conifirmForm.removeEventListener('submit', deleteCardSubmit);
       });
   }
+  showButtonLoading({ state: false, form: conifirmForm });
   conifirmForm.addEventListener('submit', deleteCardSubmit);
 }
 
@@ -139,8 +144,9 @@ function setProfilePhoto({ avatar }) {
 
 formAddCard.addEventListener('submit', (e) => {
   e.preventDefault();
-  postNewCard({ name: cardNamePlace.value, link: cardImageLink.value }).then(
-    (cardData) => {
+  showButtonLoading({ state: true, form: formAddCard });
+  postNewCard({ name: cardNamePlace.value, link: cardImageLink.value })
+    .then((cardData) => {
       const card = createCard({
         cardTemplate,
         cardData,
@@ -149,15 +155,15 @@ formAddCard.addEventListener('submit', (e) => {
         onLikeCard: likeCard,
         myId: cardData.owner['_id'],
       });
-
       cardList.prepend(card);
       formAddCard.reset();
       closeModal(popupTypeNewCard);
-    }
-  );
+    })
+    .finally(() => showButtonLoading({ state: false, form: formAddCard }));
 });
 
 formEditProfile.addEventListener('submit', (e) => {
+  showButtonLoading({ state: true, form: formEditProfile });
   e.preventDefault();
   patchProfileSection({ name: nameInput.value, about: jobInput.value })
     .then(({ name, about, avatar }) => {
@@ -168,11 +174,13 @@ formEditProfile.addEventListener('submit', (e) => {
       });
       closeModal(popupTypeEdit);
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => showButtonLoading({ state: false, form: formEditProfile }));
   closeModal(popupTypeEdit);
 });
 
 formChangeProfileImage.addEventListener('submit', (e) => {
+  showButtonLoading({ state: true, form: formChangeProfileImage });
   e.preventDefault();
   patchProfilePhoto(profileImageLink.value)
     .then(({ name, about, avatar }) => {
@@ -182,7 +190,10 @@ formChangeProfileImage.addEventListener('submit', (e) => {
     .catch((error) => {
       console.error(error);
       closeModal(popupTypeEditAvatar);
-    });
+    })
+    .finally(() =>
+      showButtonLoading({ state: false, form: formChangeProfileImage })
+    );
 });
 
 addButton.addEventListener('click', () => {
