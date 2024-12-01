@@ -4,7 +4,7 @@ function createCard({
   openImagePopup,
   onCardDelete,
   onLikeCard,
-  myId,
+  ownerId,
 }) {
   const card = cardTemplate.querySelector('.places__item').cloneNode(true);
   const cardTitle = card.querySelector('.card__title');
@@ -16,7 +16,6 @@ function createCard({
   cardImage.addEventListener('click', () =>
     openImagePopup({ link: cardData.link, name: cardData.name })
   );
-
   likeButton.addEventListener('click', () =>
     onLikeCard({
       cardId: cardData['_id'],
@@ -24,14 +23,10 @@ function createCard({
       buttonElement: likeButton,
     })
   );
-  if (cardData.owner._id === myId) {
+  if (cardData.owner._id === ownerId) {
     deleteButton.classList.add('card__delete-button-active');
     deleteButton.addEventListener('click', () =>
-      onCardDelete({
-        cardId: cardData['_id'],
-        cardElement: card,
-        buttonElement: deleteButton,
-      })
+      onCardDelete({ id: cardData._id, card })
     );
   }
   cardData.likes.length
@@ -43,7 +38,7 @@ function createCard({
   cardImage.setAttribute('alt', cardData.name);
 
   cardData.likes.forEach((likeOwner) => {
-    if (likeOwner._id === myId) {
+    if (likeOwner._id === ownerId) {
       likeButton.classList.add('card__like-button_is-active');
     }
   });

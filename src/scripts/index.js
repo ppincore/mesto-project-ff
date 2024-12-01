@@ -44,7 +44,7 @@ const profileImageLink = formChangeProfileImage.querySelector(
   '.popup__input_photo_url'
 );
 const conifirmForm = document.forms['conifirm-delete'];
-
+let cardToDelete;
 const validationConfig = {
   formSelector: '.popup__form',
   inputSelector: '.popup__input',
@@ -76,26 +76,23 @@ function showButtonLoading({ state, form }) {
     : buttonElement.classList.remove('popup__button_is-loading');
 }
 
-function deleteCard({ cardId, buttonElement }) {
+
+
+function deleteCard({ id, card }) {
   openModal(popupConfirmDelete);
-  function deleteCardSubmit(e) {
-    showButtonLoading({ state: true, form: conifirmForm });
-    e.preventDefault();
-    deleteMyCard(cardId)
-      .then(() => {
-        buttonElement.closest('.card').remove();
-        closeModal(popupConfirmDelete);
-      })
-      .catch((err) => {
-        console.error('Ошибка при удалении карточки:', err);
-      })
-      .finally(() => {
-        conifirmForm.removeEventListener('submit', deleteCardSubmit);
-      });
-  }
-  showButtonLoading({ state: false, form: conifirmForm });
-  conifirmForm.addEventListener('submit', deleteCardSubmit);
+  conifirmForm.dataset.id = id;
+  cardToDelete = card;
 }
+
+function handleDeleteSubmit(e) {
+  e.preventDefault();
+  deleteMyCard(conifirmForm.dataset.id).then(() => {
+    cardToDelete.remove();
+    closeModal(popupConfirmDelete);
+  });
+}
+
+conifirmForm.addEventListener('submit', handleDeleteSubmit);
 
 function likeCard({ buttonElement, cardId, counter }) {
   if (!buttonElement.classList.contains('card__like-button_is-active')) {
@@ -119,14 +116,14 @@ function likeCard({ buttonElement, cardId, counter }) {
   }
 }
 
-function buildCardElement(myId, cardData) {
+function buildCardElement(ownerId, cardData) {
   const card = createCard({
     cardTemplate,
     cardData,
     openImagePopup,
     onCardDelete: deleteCard,
     onLikeCard: likeCard,
-    myId,
+    ownerId,
   });
   cardList.append(card);
 }
@@ -162,7 +159,7 @@ formAddCard.addEventListener('submit', (e) => {
         openImagePopup,
         onCardDelete: deleteCard,
         onLikeCard: likeCard,
-        myId: cardData.owner['_id'],
+        ownerId: cardData.owner['_id'],
       });
       cardList.prepend(card);
       formAddCard.reset();
@@ -185,7 +182,6 @@ formEditProfile.addEventListener('submit', (e) => {
     })
     .catch((err) => console.log(err))
     .finally(() => showButtonLoading({ state: false, form: formEditProfile }));
-  closeModal(popupTypeEdit);
 });
 
 formChangeProfileImage.addEventListener('submit', (e) => {
